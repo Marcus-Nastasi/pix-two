@@ -1,8 +1,5 @@
 package com.open.pix.domain.enums;
 
-import lombok.Getter;
-
-@Getter
 public record AgencyNumber(String value) {
 
     public AgencyNumber {

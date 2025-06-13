@@ -1,8 +1,5 @@
 package com.open.pix.domain.enums;
 
-import lombok.Getter;
-
-@Getter
 public record AccountNumber(String value) {
 
     public AccountNumber {
@@ -10,5 +7,4 @@ public record AccountNumber(String value) {
             throw new RuntimeException("Número da conta deve ter exatamente 8 dígitos");
         }
     }
-
 }

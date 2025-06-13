@@ -18,7 +18,7 @@ public class PixKey {
 
     private UUID id;
 
-    private PixType type;
+    private PixType pixType;
 
     private String value;
 
@@ -66,7 +66,7 @@ public class PixKey {
         if (!active) throw new RuntimeException("Já inativa");
         LocalDateTime now = LocalDateTime.now();
         return new PixKey(id,
-                        type,
+                        pixType,
                         value,
                         accountType,
                         agencyNumber,
