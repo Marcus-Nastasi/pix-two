@@ -25,28 +25,28 @@ public class CpfPixTypeTests {
     @Test
     void mustThrowOnCpfWithNonNumeric() {
         Assertions.assertThrows(PixTypeException.class, () -> {
-            new CpfPixType("1234567890123G");
+            new CpfPixType("1234567890G");
         });
     }
 
     @Test
     void mustThrowOnInvalidCpf() {
         Assertions.assertThrows(PixTypeException.class, () -> {
-            new CpfPixType("43192371287391");
+            new CpfPixType("11111111111");
         });
     }
 
     @Test
     void mustPassOnValidCpf() {
         Assertions.assertDoesNotThrow(() -> {
-            new CpfPixType("16758031000146");
+            new CpfPixType("60074967088");
         });
     }
 
     @Test
     void mustCreateValidCpfPixType() {
-        PixType pixType = new CpfPixType("16758031000146");
+        PixType pixType = new CpfPixType("60074967088");
         Assertions.assertDoesNotThrow(() -> pixType);
-        Assertions.assertEquals("16758031000146", pixType.value());
+        Assertions.assertEquals("60074967088", pixType.value());
     }
 }

@@ -16,6 +16,13 @@ public class CnpjPixTypeTests {
     }
 
     @Test
+    void mustThrowOnCnpjWithMoreThan14Numbers() {
+        Assertions.assertThrows(PixTypeException.class, () -> {
+            new CnpjPixType("12345678901234567");
+        });
+    }
+
+    @Test
     void mustThrowOnCnpjWithNonNumeric() {
         Assertions.assertThrows(PixTypeException.class, () -> {
             new CnpjPixType("1234567890123G");

@@ -3,7 +3,6 @@ package com.open.pix.domain.enums.pixTypes;
 import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.interfaces.PixType;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
 public final class CnpjPixType implements PixType {
 
     private static final Pattern DIGITS = Pattern.compile("\\d+");
@@ -30,9 +28,15 @@ public final class CnpjPixType implements PixType {
 
     @Override
     public void validate(String value) {
-        if (value.length() > maxLength()) throw new PixTypeException("The CNPJ have more digits than 14");
-        if (!isNumeric(value)) throw new PixTypeException("The CNPJ must have just 14 numeric numbers");
-        if (!isValidCnpj(value)) throw new PixTypeException("The CNPJ isn't valid");
+        if (value.length() != maxLength()) {
+            throw new PixTypeException("The CNPJ have more digits than " + maxLength());
+        }
+        if (!isNumeric(value)) {
+            throw new PixTypeException("The CNPJ must have exact " + maxLength() + " numeric numbers");
+        }
+        if (!isValidCnpj(value)) {
+            throw new PixTypeException("The CNPJ isn't valid");
+        }
     }
 
     @Override
