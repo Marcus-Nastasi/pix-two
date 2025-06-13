@@ -36,14 +36,17 @@ public class PixKeyEntity {
     @Size(max = 10)
     private String accountType;
 
-    @Column(name = "agency", nullable = false, columnDefinition = "NUMERIC(4)")
+    @NotNull
     @Min(0)
     @Max(9999)
+    @Digits(integer = 4, fraction = 0)
+    @Column(name = "agency", nullable = false)
     private Integer agencyNumber;
 
-    @Column(name = "account_number", nullable = false, columnDefinition = "NUMERIC(8)")
     @Min(0)
     @Max(99999999)
+    @Digits(integer = 8, fraction = 0)
+    @Column(name = "account_number", nullable = false)
     private Integer accountNumber;
 
     @NotBlank
