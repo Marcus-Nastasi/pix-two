@@ -3,6 +3,8 @@ package com.open.pix.infra.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -43,6 +45,7 @@ public class PixKeyEntity {
     @Column(name = "agency", nullable = false)
     private Integer agencyNumber;
 
+    @NotNull
     @Min(0)
     @Max(99999999)
     @Digits(integer = 8, fraction = 0)
@@ -61,9 +64,11 @@ public class PixKeyEntity {
     @Column(name = "active", nullable = false)
     private boolean active;
 
+    @CreationTimestamp
     @Column(name = "creation_datetime", nullable = false)
     private LocalDateTime creationDateTime;
 
+    @UpdateTimestamp
     @Column(name = "update_datetime", nullable = false)
     private LocalDateTime updateDateTime;
 
