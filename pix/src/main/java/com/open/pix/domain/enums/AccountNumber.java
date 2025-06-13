@@ -1,9 +1,9 @@
 package com.open.pix.domain.enums;
 
-public record AccountNumber(String value) {
+public record AccountNumber(Integer value) {
 
     public AccountNumber {
-        if (!value.matches("\\d{8}")) {
+        if (value > 99999999) {
             throw new RuntimeException("Número da conta deve ter exatamente 8 dígitos");
         }
     }

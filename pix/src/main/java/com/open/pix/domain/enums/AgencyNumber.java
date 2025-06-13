@@ -1,9 +1,9 @@
 package com.open.pix.domain.enums;
 
-public record AgencyNumber(String value) {
+public record AgencyNumber(Integer value) {
 
     public AgencyNumber {
-        if (!value.matches("\\d{4}")) {
+        if (value > 9999) {
             throw new RuntimeException("Número de agência deve ter exatamente 4 dígitos");
         }
     }
