@@ -6,7 +6,7 @@ import com.open.pix.domain.interfaces.PixType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PixTypeCnpjTests {
+public class CnpjPixTypeTests {
 
     @Test
     void mustThrowOnCnpjWithLessThan14Numbers() {
