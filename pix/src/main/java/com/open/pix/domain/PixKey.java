@@ -3,6 +3,7 @@ package com.open.pix.domain;
 import com.open.pix.domain.enums.AccountNumber;
 import com.open.pix.domain.enums.AccountType;
 import com.open.pix.domain.enums.AgencyNumber;
+import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.interfaces.PixType;
 import lombok.*;
 
@@ -10,8 +11,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Setter
 @NoArgsConstructor
+@Setter(AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PixKey {
@@ -62,20 +63,23 @@ public class PixKey {
                 null);
     }
 
-    public PixKey inactivate() {
-        if (!active) throw new RuntimeException("Já inativa");
+    public void inactivate() {
+        if (!active) throw new PixKeyException("Already inactivated");
         LocalDateTime now = LocalDateTime.now();
-        return new PixKey(id,
-                        pixType,
-                        value,
-                        accountType,
-                        agencyNumber,
-                        accountNumber,
-                        firstName,
-                        lastName,
-                        false,
-                        creationDateTime,
-                        now,
-                        now);
+        setActive(false);
+        setUpdateDateTime(now);
+        setInactivationDateTime(now);
+//        return new PixKey(id,
+//                        pixType,
+//                        value,
+//                        accountType,
+//                        agencyNumber,
+//                        accountNumber,
+//                        firstName,
+//                        lastName,
+//                        false,
+//                        creationDateTime,
+//                        now,
+//                        now);
     }
 }
