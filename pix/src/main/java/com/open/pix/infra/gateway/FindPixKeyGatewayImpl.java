@@ -7,7 +7,7 @@ import com.open.pix.infra.persistency.PixKeyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -17,8 +17,8 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
     private PixKeyRepository repository;
 
     @Override
-    public Set<PixKey> findAll() {
-        return repository.findAll().stream().map(PixKeyEntityMapper::toDomain).collect(Collectors.toSet());
+    public List<PixKey> findAll() {
+        return repository.findAll().stream().map(PixKeyEntityMapper::toDomain).collect(Collectors.toList());
     }
 
     @Override
