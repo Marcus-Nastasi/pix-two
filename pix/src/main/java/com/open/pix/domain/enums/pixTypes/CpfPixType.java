@@ -22,6 +22,11 @@ public class CpfPixType implements PixType {
     }
 
     @Override
+    public String type() {
+        return "cpf";
+    }
+
+    @Override
     public void validate(String value) {
         if (value.length() != maxLength()) {
             throw new PixTypeException("The CPF have more digits than " + maxLength());

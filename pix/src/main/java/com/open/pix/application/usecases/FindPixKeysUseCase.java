@@ -1,0 +1,25 @@
+package com.open.pix.application.usecases;
+
+import com.open.pix.application.gateway.FindPixKeyGateway;
+import com.open.pix.domain.PixKey;
+import org.springframework.data.crossstore.ChangeSetPersister;
+
+import java.util.Set;
+import java.util.UUID;
+
+public class FindPixKeysUseCase {
+
+    private final FindPixKeyGateway findPixKeyGateway;
+
+    public FindPixKeysUseCase(FindPixKeyGateway findPixKeyGateway) {
+        this.findPixKeyGateway = findPixKeyGateway;
+    }
+
+    public Set<PixKey> findAll() {
+        return findPixKeyGateway.findAll();
+    }
+
+    public PixKey findById(UUID id) throws ChangeSetPersister.NotFoundException {
+        return findPixKeyGateway.findById(id);
+    }
+}

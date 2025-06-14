@@ -12,8 +12,8 @@ import java.util.UUID;
 
 @Data
 @Setter
+@Builder
 @NoArgsConstructor
-@Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PixKey {
 

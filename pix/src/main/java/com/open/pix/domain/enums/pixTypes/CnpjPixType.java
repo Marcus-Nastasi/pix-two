@@ -25,6 +25,11 @@ public final class CnpjPixType implements PixType {
     }
 
     @Override
+    public String type() {
+        return "cnpj";
+    }
+
+    @Override
     public void validate(String value) {
         if (value.length() != maxLength()) {
             throw new PixTypeException("The CNPJ have more digits than " + maxLength());

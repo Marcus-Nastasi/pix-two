@@ -26,6 +26,11 @@ public class PhonePixType implements PixType {
     }
 
     @Override
+    public String type() {
+        return "celular";
+    }
+
+    @Override
     public void validate(String value) {
         if (!value.startsWith("+")) {
             throw new PixTypeException("Phone must initialize with '+' followed by country code");

@@ -27,6 +27,11 @@ public class EmailPixType implements PixType {
     }
 
     @Override
+    public String type() {
+        return "email";
+    }
+
+    @Override
     public void validate(String value) {
         if (!value.contains("@")) {
             throw new PixTypeException("E-mail must have '@'");

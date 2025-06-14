@@ -26,6 +26,11 @@ public class RandomPixType implements PixType {
     }
 
     @Override
+    public String type() {
+        return "aleatorio";
+    }
+
+    @Override
     public void validate(String value) {
         if (value.length() > maxLength()) {
             throw new PixTypeException("Random key must contain the maxim of 36 alphanumeric characters");
