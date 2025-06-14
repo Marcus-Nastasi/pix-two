@@ -69,17 +69,5 @@ public class PixKey {
         setActive(false);
         setUpdateDateTime(now);
         setInactivationDateTime(now);
-//        return new PixKey(id,
-//                        pixType,
-//                        value,
-//                        accountType,
-//                        agencyNumber,
-//                        accountNumber,
-//                        firstName,
-//                        lastName,
-//                        false,
-//                        creationDateTime,
-//                        now,
-//                        now);
     }
 }
