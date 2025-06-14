@@ -14,7 +14,7 @@ public record AccountType(String type) {
         type = type.trim().toLowerCase();
     }
 
-    /** Factory methods to autocomplete */
+    /** Factory methods*/
     public static AccountType current() {
         return new AccountType("corrente");
     }
@@ -24,7 +24,9 @@ public record AccountType(String type) {
     }
 
     private void validate(String value) {
-        Objects.requireNonNull(value, "Account type must not be null");
+        if (value == null || value.isEmpty() || value.isBlank()) {
+            throw new AccountTypeException("Account type must not be empty");
+        }
         if (value.length() > 10) {
             throw new AccountTypeException("Account type must not exceed 10 characters");
         }

@@ -10,10 +10,10 @@ public class AccountTypeTests {
 
     @Test
     void mustThrowOnAccountTypeNull() {
-        NullPointerException ex = assertThrows(NullPointerException.class, () -> {
+        AccountTypeException ex = assertThrows(AccountTypeException.class, () -> {
             new AccountType(null);
         });
-        assertEquals("Account type must not be null", ex.getMessage());
+        assertEquals("Account type must not be empty", ex.getMessage());
     }
 
     @Test
