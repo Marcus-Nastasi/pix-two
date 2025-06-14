@@ -1,10 +1,15 @@
 package com.open.pix.domain.enums;
 
+import com.open.pix.domain.exceptions.AccountNumberException;
+
 public record AccountNumber(Integer value) {
 
     public AccountNumber {
+        if (value == null) {
+            throw new AccountNumberException("Account number must be informed");
+        }
         if (value > 99999999) {
-            throw new RuntimeException("Número da conta deve ter exatamente 8 dígitos");
+            throw new AccountNumberException("Account number must match exact 8 digits");
         }
     }
 }

@@ -2,7 +2,6 @@ package com.open.pix.domain.enums;
 
 import com.open.pix.domain.exceptions.AccountTypeException;
 
-import java.util.Objects;
 import java.util.Set;
 
 public record AccountType(String type) {
