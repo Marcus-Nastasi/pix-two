@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
+@Setter
 @NoArgsConstructor
-@Setter(AccessLevel.PRIVATE)
 @Builder(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PixKey {
