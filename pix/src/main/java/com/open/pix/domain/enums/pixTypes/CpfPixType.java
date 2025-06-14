@@ -2,11 +2,9 @@ package com.open.pix.domain.enums.pixTypes;
 
 import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.interfaces.PixType;
-import lombok.Getter;
 
 import java.util.regex.Pattern;
 
-@Getter
 public class CpfPixType implements PixType {
 
     private static final Pattern DIGITS = Pattern.compile("\\d+");
