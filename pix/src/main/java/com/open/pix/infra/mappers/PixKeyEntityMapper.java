@@ -3,6 +3,7 @@ package com.open.pix.infra.mappers;
 import com.open.pix.domain.PixKey;
 import com.open.pix.domain.enums.AccountNumber;
 import com.open.pix.domain.enums.AccountType;
+import com.open.pix.domain.enums.AgencyNumber;
 import com.open.pix.domain.factory.PixTypeFactory;
 import com.open.pix.infra.entity.PixKeyEntity;
 
@@ -14,6 +15,7 @@ public class PixKeyEntityMapper {
                 .pixType(PixTypeFactory.newPixType(pixKey.getPixType(), pixKey.getValue()))
                 .value(pixKey.getValue())
                 .accountType(new AccountType(pixKey.getAccountType()))
+                .agencyNumber(new AgencyNumber(pixKey.getAgencyNumber()))
                 .accountNumber(new AccountNumber(pixKey.getAccountNumber()))
                 .firstName(pixKey.getFirstName())
                 .lastName(pixKey.getLastName())
@@ -30,6 +32,7 @@ public class PixKeyEntityMapper {
                 .pixType(pixKey.getPixType().type())
                 .value(pixKey.getValue())
                 .accountType(pixKey.getAccountType().type())
+                .agencyNumber(pixKey.getAgencyNumber().value())
                 .accountNumber(pixKey.getAccountNumber().value())
                 .firstName(pixKey.getFirstName())
                 .lastName(pixKey.getLastName())

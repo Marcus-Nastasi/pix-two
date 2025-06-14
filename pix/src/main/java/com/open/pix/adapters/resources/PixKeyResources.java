@@ -1,10 +1,16 @@
 package com.open.pix.adapters.resources;
 
+import com.open.pix.adapters.input.PixKeyRegistreRequest;
+import com.open.pix.adapters.mappers.PixKeyRequestMapper;
 import com.open.pix.adapters.mappers.PixKeyResponseMapper;
 import com.open.pix.adapters.output.PixKeyResponse;
 import com.open.pix.application.usecases.FindPixKeysUseCase;
+import com.open.pix.application.usecases.RegistrePixKeyUseCase;
+import com.open.pix.domain.PixKey;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +24,14 @@ import java.util.stream.Collectors;
 public class PixKeyResources {
 
     private final FindPixKeysUseCase findPixKeysUseCase;
+
+    private final RegistrePixKeyUseCase registrePixKeyUseCase;
+
+    @PostMapping
+    public ResponseEntity<PixKeyResponse> registre(@RequestBody @Valid PixKeyRegistreRequest request) {
+        PixKey newPixKey = registrePixKeyUseCase.registre(PixKeyRequestMapper.fromRegistre(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(PixKeyResponseMapper.toResponse(newPixKey));
+    }
 
     @GetMapping
     public ResponseEntity<Set<PixKeyResponse>> findAll() {

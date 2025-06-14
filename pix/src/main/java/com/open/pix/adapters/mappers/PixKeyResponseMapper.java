@@ -8,7 +8,7 @@ public class PixKeyResponseMapper {
     public static PixKeyResponse toResponse(PixKey pixKey) {
         return new PixKeyResponse(
                 pixKey.getId(),
-                pixKey.getPixType().value(),
+                pixKey.getPixType().type(),
                 pixKey.getValue(),
                 pixKey.getAccountType().type(),
                 pixKey.getAgencyNumber().value(),
