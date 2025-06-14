@@ -9,7 +9,7 @@ public record AccountNumber(Integer value) {
             throw new AccountNumberException("Account number must be informed");
         }
         if (value > 99999999) {
-            throw new AccountNumberException("Account number must match exact 8 digits");
+            throw new AccountNumberException("Account number must have less or equal than 8 digits");
         }
     }
 }

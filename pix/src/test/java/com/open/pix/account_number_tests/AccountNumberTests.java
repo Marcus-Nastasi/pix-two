@@ -13,7 +13,7 @@ public class AccountNumberTests {
         AccountNumberException exception = assertThrows(AccountNumberException.class, () -> {
             new AccountNumber(123456789);
         });
-        assertEquals("Account number must match exact 8 digits", exception.getMessage());
+        assertEquals("Account number must have less or equal than 8 digits", exception.getMessage());
     }
 
     @Test
