@@ -28,7 +28,7 @@ public class PixKeyConfig {
     }
 
     @Bean
-    public RegistrePixKeyUseCase registrePixKeyUseCase(RegistrePixKey registrePixKey) {
-        return new RegistrePixKeyUseCase(registrePixKey);
+    public RegistrePixKeyUseCase registrePixKeyUseCase(RegistrePixKey registrePixKey, FindPixKeyGateway findPixKeyGateway) {
+        return new RegistrePixKeyUseCase(registrePixKey, findPixKeyGateway);
     }
 }

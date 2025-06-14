@@ -22,4 +22,8 @@ public class FindPixKeysUseCase {
     public PixKey findById(UUID id) throws ChangeSetPersister.NotFoundException {
         return findPixKeyGateway.findById(id);
     }
+
+    public PixKey findByPixValue(String value) {
+        return findPixKeyGateway.findByPixValue(value);
+    }
 }

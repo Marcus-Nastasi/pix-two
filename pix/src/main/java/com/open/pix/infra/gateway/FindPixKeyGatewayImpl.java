@@ -5,7 +5,6 @@ import com.open.pix.domain.PixKey;
 import com.open.pix.infra.mappers.PixKeyEntityMapper;
 import com.open.pix.infra.persistency.PixKeyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +21,12 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
     }
 
     @Override
-    public PixKey findById(UUID id) throws ChangeSetPersister.NotFoundException {
-        return PixKeyEntityMapper.toDomain(repository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new));
+    public PixKey findById(UUID id) {
+        return PixKeyEntityMapper.toDomain(repository.findById(id).orElseThrow());
+    }
+
+    @Override
+    public PixKey findByPixValue(String value) {
+        return PixKeyEntityMapper.toDomain(repository.findByValue(value));
     }
 }
