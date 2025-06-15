@@ -26,9 +26,9 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     @Override
     public List<PixKey> findAllByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber) {
-        return repository.findAllByAccountNumberAndAgencyNumber(accountNumber, agencyNumber).stream()
+        return repository.findAllByAccountNumberAndAgencyNumberAndActiveTrue(accountNumber, agencyNumber).stream()
                 .map(PixKeyEntityMapper::toDomain)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     @Override
     public PixKey findByPixValue(String value) {
-        PixKeyEntity pixKey = repository.findByValue(value);
+        PixKeyEntity pixKey = repository.findByValueAndActiveTrue(value);
         if (pixKey == null) {
             return null;
         }

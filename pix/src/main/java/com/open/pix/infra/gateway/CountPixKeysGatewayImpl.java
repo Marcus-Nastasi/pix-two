@@ -13,6 +13,6 @@ public class CountPixKeysGatewayImpl implements CountPixKeysGateway {
 
     @Override
     public int countByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber) {
-        return repository.countByAccountNumberAndAgencyNumber(accountNumber, agencyNumber);
+        return repository.countByAccountNumberAndAgencyNumberAndActiveTrue(accountNumber, agencyNumber);
     }
 }

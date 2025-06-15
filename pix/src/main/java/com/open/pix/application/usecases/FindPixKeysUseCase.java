@@ -1,5 +1,6 @@
 package com.open.pix.application.usecases;
 
+import com.open.pix.application.exceptions.NotFoundException;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.domain.PixKey;
 
@@ -15,18 +16,16 @@ public class FindPixKeysUseCase {
     }
 
     public List<PixKey> findAll() {
-        return findPixKeyGateway.findAll();
-    }
-
-    public List<PixKey> findAllByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber) {
-        return findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(accountNumber, agencyNumber);
+        return findPixKeyGateway.findAll().stream()
+                .filter(PixKey::isActive)
+                .toList();
     }
 
     public PixKey findById(UUID id) {
-        return findPixKeyGateway.findById(id);
-    }
-
-    public PixKey findByPixValue(String value) {
-        return findPixKeyGateway.findByPixValue(value);
+        PixKey pixKey = findPixKeyGateway.findById(id);
+        if (!pixKey.isActive()) {
+            throw new NotFoundException("Pix key not found");
+        }
+        return pixKey;
     }
 }
