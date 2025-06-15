@@ -1,6 +1,6 @@
 package com.open.pix.infra.configuration;
 
-import com.open.pix.application.gateway.CountPixKeys;
+import com.open.pix.application.gateway.CountPixKeysGateway;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.application.gateway.RegistrePixKey;
 import com.open.pix.application.usecases.FindPixKeysUseCase;
@@ -19,7 +19,7 @@ public class PixKeyConfig {
     @Bean
     public RegistrePixKeyUseCase registrePixKeyUseCase(RegistrePixKey registrePixKey,
                                                        FindPixKeyGateway findPixKeyGateway,
-                                                       CountPixKeys countPixKeys) {
-        return new RegistrePixKeyUseCase(registrePixKey, findPixKeyGateway, countPixKeys);
+                                                       CountPixKeysGateway countPixKeysGateway) {
+        return new RegistrePixKeyUseCase(registrePixKey, findPixKeyGateway, countPixKeysGateway);
     }
 }
