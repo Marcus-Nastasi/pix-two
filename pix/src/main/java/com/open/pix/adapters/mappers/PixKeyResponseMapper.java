@@ -14,7 +14,9 @@ public class PixKeyResponseMapper {
                 pixKey.getAgencyNumber().value(),
                 pixKey.getAccountNumber().value(),
                 pixKey.getFirstName(),
-                pixKey.getLastName()
+                pixKey.getLastName(),
+                pixKey.getCreationDateTime(),
+                pixKey.getInactivationDateTime()
         );
     }
 }

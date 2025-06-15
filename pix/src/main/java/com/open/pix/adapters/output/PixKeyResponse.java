@@ -1,6 +1,7 @@
 package com.open.pix.adapters.output;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record PixKeyResponse(
@@ -11,5 +12,7 @@ public record PixKeyResponse(
         Integer agencyNumber,
         Integer accountNumber,
         String firstName,
-        String lastName
+        String lastName,
+        LocalDateTime creationDateTime,
+        LocalDateTime inactivationDateTime
 ) implements Serializable {}
