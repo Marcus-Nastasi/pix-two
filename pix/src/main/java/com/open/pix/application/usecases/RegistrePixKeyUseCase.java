@@ -39,11 +39,7 @@ public class RegistrePixKeyUseCase {
                         || k.getPixType().type().equalsIgnoreCase("cnpj"))
                 .map(k -> k.getPixType().type())
                 .findFirst();
-        return switch (type.orElse("")) {
-            case "cpf" -> PF;
-            case "cnpj" -> PJ;
-            default -> "";
-        };
+        return type.orElse("").equals("cnpj") ? PJ : PF;
     }
 
     private void checkExistingKey(PixKey pixKey) {
