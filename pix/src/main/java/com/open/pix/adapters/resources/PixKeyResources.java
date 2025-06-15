@@ -9,10 +9,10 @@ import com.open.pix.application.usecases.RegistrePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -27,9 +27,9 @@ public class PixKeyResources {
     private final RegistrePixKeyUseCase registrePixKeyUseCase;
 
     @PostMapping
-    public ResponseEntity<PixKeyResponse> registre(@RequestBody @Valid PixKeyRegistreRequest request) {
+    public ResponseEntity<Map<String, UUID>> registre(@RequestBody @Valid PixKeyRegistreRequest request) {
         PixKey newPixKey = registrePixKeyUseCase.registre(PixKeyRequestMapper.fromRegistre(request));
-        return ResponseEntity.status(HttpStatus.CREATED).body(PixKeyResponseMapper.toResponse(newPixKey));
+        return ResponseEntity.ok(Map.of("id", newPixKey.getId()));
     }
 
     @GetMapping

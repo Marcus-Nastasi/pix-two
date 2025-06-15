@@ -4,12 +4,15 @@ import com.open.pix.infra.entity.PixKeyEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface PixKeyRepository extends JpaRepository<PixKeyEntity, UUID> {
 
     PixKeyEntity findByValue(String value);
+
+    List<PixKeyEntity> findAllByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber);
 
     int countByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber);
 }

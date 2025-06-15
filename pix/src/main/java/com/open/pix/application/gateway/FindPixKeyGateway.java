@@ -9,6 +9,8 @@ public interface FindPixKeyGateway {
 
     List<PixKey> findAll();
 
+    List<PixKey> findAllByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber);
+
     PixKey findById(UUID id);
 
     PixKey findByPixValue(String value);

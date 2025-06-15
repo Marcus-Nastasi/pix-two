@@ -18,6 +18,10 @@ public class FindPixKeysUseCase {
         return findPixKeyGateway.findAll();
     }
 
+    public List<PixKey> findAllByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber) {
+        return findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(accountNumber, agencyNumber);
+    }
+
     public PixKey findById(UUID id) {
         return findPixKeyGateway.findById(id);
     }
