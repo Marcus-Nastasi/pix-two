@@ -63,6 +63,21 @@ public class PixKey {
                 null);
     }
 
+    public PixKey update(AccountType accountType,
+                         AgencyNumber agency,
+                         AccountNumber accountNumber,
+                         String firstName,
+                         String lastName) {
+        setAccountType(accountType);
+        setAgencyNumber(agency);
+        setAccountNumber(accountNumber);
+        setFirstName(firstName);
+        if (!lastName.isEmpty() || !lastName.isBlank()) {
+            setLastName(lastName);
+        }
+        return this;
+    }
+
     public void inactivate() {
         if (!active) throw new PixKeyException("Already inactivated");
         LocalDateTime now = LocalDateTime.now();

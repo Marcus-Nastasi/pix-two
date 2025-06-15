@@ -26,7 +26,8 @@ public class PixKeyConfig {
     }
 
     @Bean
-    public UpdatePixKeyUseCase updatePixKeyUseCase(UpdatePixKeyGateway updatePixKeyGateway) {
-        return new UpdatePixKeyUseCase(updatePixKeyGateway);
+    public UpdatePixKeyUseCase updatePixKeyUseCase(UpdatePixKeyGateway updatePixKeyGateway,
+                                                   FindPixKeyGateway findPixKeyGateway) {
+        return new UpdatePixKeyUseCase(updatePixKeyGateway, findPixKeyGateway);
     }
 }
