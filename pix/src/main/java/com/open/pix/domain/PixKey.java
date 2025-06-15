@@ -42,45 +42,44 @@ public class PixKey {
     private LocalDateTime inactivationDateTime;
 
     public static PixKey registerNew(PixType type,
-                                 String value,
-                                 AccountType accountType,
-                                 AgencyNumber agency,
-                                 AccountNumber accountNumber,
-                                 String firstName,
-                                 String lastName) {
-        LocalDateTime now = LocalDateTime.now();
+                                     String value,
+                                     AccountType accountType,
+                                     AgencyNumber agency,
+                                     AccountNumber accountNumber,
+                                     String firstName,
+                                     String lastName) {
         if (firstName == null || firstName.isEmpty() || firstName.isBlank()) {
             throw new PixKeyException("First name must not be null, empty or blank");
         }
+        LocalDateTime now = LocalDateTime.now();
         return new PixKey(null,
-                type,
-                value,
-                accountType,
-                agency,
-                accountNumber,
-                firstName,
-                lastName,
-                true,
-                now,
-                now,
-                null);
+                        type,
+                        value,
+                        accountType,
+                        agency,
+                        accountNumber,
+                        firstName,
+                        lastName,
+                        true,
+                        now,
+                        now,
+                        null);
     }
 
     public PixKey update(AccountType accountType,
                          AgencyNumber agency,
                          AccountNumber accountNumber,
                          String firstName,
-                         String lastName,
-                         boolean active) {
+                         String lastName) {
+        if (firstName == null || firstName.isEmpty() || firstName.isBlank()) {
+            throw new PixKeyException("First name must not be null, empty or blank");
+        }
         if (!active) {
             throw new PixKeyException("It's not allowed to update inactive keys");
         }
         setAccountType(accountType);
         setAgencyNumber(agency);
         setAccountNumber(accountNumber);
-        if (firstName == null || firstName.isEmpty() || firstName.isBlank()) {
-            throw new PixKeyException("First name must not be null, empty or blank");
-        }
         setFirstName(firstName);
         if (lastName != null) {
             setLastName(lastName);
