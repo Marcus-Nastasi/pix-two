@@ -4,12 +4,14 @@ import com.open.pix.application.gateway.RegistrePixKey;
 import com.open.pix.domain.PixKey;
 import com.open.pix.infra.mappers.PixKeyEntityMapper;
 import com.open.pix.infra.persistency.PixKeyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class RegistrePixKeyImpl implements RegistrePixKey {
 
-    @Autowired
-    private PixKeyRepository repository;
+    private final PixKeyRepository repository;
 
     @Override
     public PixKey registre(PixKey pixKey) {

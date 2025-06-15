@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface PixKeyRepository extends JpaRepository<PixKeyEntity, UUID> {
 
     PixKeyEntity findByValue(String value);
+
+    int countByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber);
 }

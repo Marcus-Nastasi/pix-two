@@ -1,6 +1,7 @@
 package com.open.pix.application.usecases;
 
 import com.open.pix.application.exceptions.PixRegistreException;
+import com.open.pix.application.gateway.CountPixKeys;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.application.gateway.RegistrePixKey;
 import com.open.pix.domain.PixKey;
@@ -11,9 +12,14 @@ public class RegistrePixKeyUseCase {
 
     private final FindPixKeyGateway findPixKeyGateway;
 
-    public RegistrePixKeyUseCase(RegistrePixKey registrePixKey, FindPixKeyGateway findPixKeyGateway) {
+    private final CountPixKeys countPixKeys;
+
+    public RegistrePixKeyUseCase(RegistrePixKey registrePixKey,
+                                 FindPixKeyGateway findPixKeyGateway,
+                                 CountPixKeys countPixKeys) {
         this.registrePixKey = registrePixKey;
         this.findPixKeyGateway = findPixKeyGateway;
+        this.countPixKeys = countPixKeys;
     }
 
     public PixKey registre(PixKey pixKey) {

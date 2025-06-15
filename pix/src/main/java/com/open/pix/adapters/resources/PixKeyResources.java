@@ -9,7 +9,6 @@ import com.open.pix.application.usecases.RegistrePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,10 +45,6 @@ public class PixKeyResources {
 
     @GetMapping("/{id}")
     public ResponseEntity<PixKeyResponse> findById(@PathVariable("id") UUID id) {
-        try {
-            return ResponseEntity.ok(PixKeyResponseMapper.toResponse(findPixKeysUseCase.findById(id)));
-        } catch (ChangeSetPersister.NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(PixKeyResponseMapper.toResponse(findPixKeysUseCase.findById(id)));
     }
 }
