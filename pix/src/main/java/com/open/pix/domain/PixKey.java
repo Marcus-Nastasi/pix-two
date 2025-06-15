@@ -1,5 +1,6 @@
 package com.open.pix.domain;
 
+import com.open.pix.application.exceptions.PixUpdateException;
 import com.open.pix.domain.enums.AccountNumber;
 import com.open.pix.domain.enums.AccountType;
 import com.open.pix.domain.enums.AgencyNumber;
@@ -49,6 +50,9 @@ public class PixKey {
                                  String firstName,
                                  String lastName) {
         LocalDateTime now = LocalDateTime.now();
+        if (firstName == null || firstName.isEmpty() || firstName.isBlank()) {
+            throw new PixKeyException("First name must not be null, empty or blank");
+        }
         return new PixKey(null,
                 type,
                 value,
@@ -67,14 +71,22 @@ public class PixKey {
                          AgencyNumber agency,
                          AccountNumber accountNumber,
                          String firstName,
-                         String lastName) {
+                         String lastName,
+                         boolean active) {
+        if (!active) {
+            throw new PixUpdateException("It's not allowed to update inactive keys");
+        }
         setAccountType(accountType);
         setAgencyNumber(agency);
         setAccountNumber(accountNumber);
+        if (firstName == null || firstName.isEmpty() || firstName.isBlank()) {
+            throw new PixKeyException("First name must not be null, empty or blank");
+        }
         setFirstName(firstName);
-        if (!lastName.isEmpty() || !lastName.isBlank()) {
+        if (lastName != null) {
             setLastName(lastName);
         }
+        setUpdateDateTime(LocalDateTime.now());
         return this;
     }
 

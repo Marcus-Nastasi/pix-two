@@ -1,10 +1,9 @@
 package com.open.pix.adapters.exceptions;
 
+import com.open.pix.application.exceptions.NotFoundException;
 import com.open.pix.application.exceptions.PixRegistreException;
-import com.open.pix.domain.exceptions.AccountNumberException;
-import com.open.pix.domain.exceptions.AccountTypeException;
-import com.open.pix.domain.exceptions.PixKeyException;
-import com.open.pix.domain.exceptions.PixTypeException;
+import com.open.pix.application.exceptions.PixUpdateException;
+import com.open.pix.domain.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +17,26 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException exception, WebRequest request) {
+        log.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @ExceptionHandler(PixRegistreException.class)
     public ResponseEntity<Object> handlePixRegistreException(PixRegistreException exception, WebRequest request) {
+        log.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Map.of("error", exception.getMessage()));
+    }
+
+    @ExceptionHandler(PixUpdateException.class)
+    public ResponseEntity<Object> handlePixUpdateException(PixUpdateException exception, WebRequest request) {
+        log.error(exception.getMessage());
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Map.of("error", exception.getMessage()));
+    }
+
+    @ExceptionHandler(AgencyNumberException.class)
+    public ResponseEntity<Object> handleAgencyNumberException(AgencyNumberException exception, WebRequest request) {
         log.error(exception.getMessage());
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(Map.of("error", exception.getMessage()));
     }

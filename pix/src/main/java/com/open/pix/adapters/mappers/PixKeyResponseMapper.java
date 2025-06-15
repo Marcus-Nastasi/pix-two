@@ -1,6 +1,7 @@
 package com.open.pix.adapters.mappers;
 
 import com.open.pix.adapters.output.PixKeyResponse;
+import com.open.pix.adapters.output.PixKeyUpdateResponse;
 import com.open.pix.domain.PixKey;
 
 public class PixKeyResponseMapper {
@@ -14,9 +15,27 @@ public class PixKeyResponseMapper {
                 pixKey.getAgencyNumber().value(),
                 pixKey.getAccountNumber().value(),
                 pixKey.getFirstName(),
+                pixKey.getLastName() != null
+                        ? pixKey.getLastName()
+                        : "",
+                pixKey.getCreationDateTime().toString(),
+                pixKey.getInactivationDateTime() != null
+                        ? pixKey.getInactivationDateTime().toString()
+                        : ""
+        );
+    }
+
+    public static PixKeyUpdateResponse toUpdateResponse(PixKey pixKey) {
+        return new PixKeyUpdateResponse(
+                pixKey.getId(),
+                pixKey.getPixType().type(),
+                pixKey.getValue(),
+                pixKey.getAccountType().type(),
+                pixKey.getAgencyNumber().value(),
+                pixKey.getAccountNumber().value(),
+                pixKey.getFirstName(),
                 pixKey.getLastName(),
-                pixKey.getCreationDateTime(),
-                pixKey.getInactivationDateTime()
+                pixKey.getCreationDateTime()
         );
     }
 }

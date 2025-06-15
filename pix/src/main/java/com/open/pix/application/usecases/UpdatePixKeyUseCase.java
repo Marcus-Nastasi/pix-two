@@ -28,15 +28,13 @@ public class UpdatePixKeyUseCase {
 
     public PixKey update(PixKey pixKey) {
         PixKey existingPixKey = findById(pixKey.getId());
-        if (!existingPixKey.isActive()) {
-            throw new PixUpdateException("It's not allowed to update inactive keys");
-        }
         return updatePixKeyGateway.update(
                 existingPixKey.update(pixKey.getAccountType(),
                                     pixKey.getAgencyNumber(),
                                     pixKey.getAccountNumber(),
                                     pixKey.getFirstName(),
-                                    pixKey.getLastName())
+                                    pixKey.getLastName(),
+                                    existingPixKey.isActive())
         );
     }
 }

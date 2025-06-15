@@ -1,11 +1,14 @@
 package com.open.pix.adapters.resources;
 
 import com.open.pix.adapters.input.PixKeyRegistreRequest;
+import com.open.pix.adapters.input.PixKeyUpdateRequest;
 import com.open.pix.adapters.mappers.PixKeyRequestMapper;
 import com.open.pix.adapters.mappers.PixKeyResponseMapper;
 import com.open.pix.adapters.output.PixKeyResponse;
+import com.open.pix.adapters.output.PixKeyUpdateResponse;
 import com.open.pix.application.usecases.FindPixKeysUseCase;
 import com.open.pix.application.usecases.RegistrePixKeyUseCase;
+import com.open.pix.application.usecases.UpdatePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +29,18 @@ public class PixKeyResources {
 
     private final RegistrePixKeyUseCase registrePixKeyUseCase;
 
+    private final UpdatePixKeyUseCase updatePixKeyUseCase;
+
     @PostMapping
     public ResponseEntity<Map<String, UUID>> registre(@RequestBody @Valid PixKeyRegistreRequest request) {
         PixKey newPixKey = registrePixKeyUseCase.registre(PixKeyRequestMapper.fromRegistre(request));
         return ResponseEntity.ok(Map.of("id", newPixKey.getId()));
+    }
+
+    @PatchMapping
+    public ResponseEntity<PixKeyUpdateResponse> update(@RequestBody @Valid PixKeyUpdateRequest request) {
+        return ResponseEntity.ok(PixKeyResponseMapper.toUpdateResponse(
+                updatePixKeyUseCase.update(PixKeyRequestMapper.fromUpdate(request))));
     }
 
     @GetMapping

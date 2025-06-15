@@ -1,6 +1,6 @@
 package com.open.pix.infra.gateway;
 
-import com.open.pix.application.gateway.RegistrePixKey;
+import com.open.pix.application.gateway.RegistrePixKeyGateway;
 import com.open.pix.domain.PixKey;
 import com.open.pix.infra.mappers.PixKeyEntityMapper;
 import com.open.pix.infra.persistency.PixKeyRepository;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RegistrePixKeyImpl implements RegistrePixKey {
+public class RegistrePixKeyGatewayImpl implements RegistrePixKeyGateway {
 
     private final PixKeyRepository repository;
 
