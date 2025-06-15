@@ -1,6 +1,5 @@
 package com.open.pix.domain;
 
-import com.open.pix.application.exceptions.PixUpdateException;
 import com.open.pix.domain.enums.AccountNumber;
 import com.open.pix.domain.enums.AccountType;
 import com.open.pix.domain.enums.AgencyNumber;
@@ -74,7 +73,7 @@ public class PixKey {
                          String lastName,
                          boolean active) {
         if (!active) {
-            throw new PixUpdateException("It's not allowed to update inactive keys");
+            throw new PixKeyException("It's not allowed to update inactive keys");
         }
         setAccountType(accountType);
         setAgencyNumber(agency);

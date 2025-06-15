@@ -1,5 +1,6 @@
 package com.open.pix.infra.gateway;
 
+import com.open.pix.application.exceptions.NotFoundException;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.domain.PixKey;
 import com.open.pix.infra.entity.PixKeyEntity;
@@ -32,7 +33,7 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     @Override
     public PixKey findById(UUID id) {
-        return PixKeyEntityMapper.toDomain(repository.findById(id).orElseThrow());
+        return PixKeyEntityMapper.toDomain(repository.findById(id).orElseThrow(() -> new NotFoundException("Pix key not found")));
     }
 
     @Override

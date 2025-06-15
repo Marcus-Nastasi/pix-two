@@ -1,7 +1,6 @@
 package com.open.pix.application.usecases;
 
 import com.open.pix.application.exceptions.NotFoundException;
-import com.open.pix.application.exceptions.PixUpdateException;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.application.gateway.UpdatePixKeyGateway;
 import com.open.pix.domain.PixKey;
