@@ -35,8 +35,9 @@ public class PixKeyResources {
     private final SearchPixKeysUseCase searchPixKeysUseCase;
 
     @GetMapping
-    public ResponseEntity<List<PixKeyResponse>> findAll() {
-        return ResponseEntity.ok(findPixKeysUseCase.findAll().stream()
+    public ResponseEntity<List<PixKeyResponse>> findAll(@RequestParam(defaultValue = "0") int page,
+                                                        @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(findPixKeysUseCase.findAll(page, size).stream()
                 .map(PixKeyResponseMapper::toResponse)
                 .toList());
     }

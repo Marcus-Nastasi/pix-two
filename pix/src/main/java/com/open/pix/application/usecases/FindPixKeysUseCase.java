@@ -15,8 +15,10 @@ public class FindPixKeysUseCase {
         this.findPixKeyGateway = findPixKeyGateway;
     }
 
-    public List<PixKey> findAll() {
-        List<PixKey> pixKeys = findPixKeyGateway.findAll().stream().filter(PixKey::isActive).toList();
+    public List<PixKey> findAll(int page, int size) {
+        List<PixKey> pixKeys = findPixKeyGateway.findAll(page, size).stream()
+                .filter(PixKey::isActive)
+                .toList();
         if (pixKeys.isEmpty()) {
             throw new NotFoundException("Pix keys not found");
         }

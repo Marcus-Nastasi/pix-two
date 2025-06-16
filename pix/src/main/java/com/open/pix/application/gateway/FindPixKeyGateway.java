@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface FindPixKeyGateway {
 
-    List<PixKey> findAll();
+    List<PixKey> findAll(int page, int size);
 
     List<PixKey> findAllByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber);
 
