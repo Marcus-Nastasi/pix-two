@@ -1,10 +1,7 @@
 package com.open.pix.infra.configuration;
 
 import com.open.pix.application.gateway.*;
-import com.open.pix.application.usecases.FindPixKeysUseCase;
-import com.open.pix.application.usecases.InactivatePixKeyUseCase;
-import com.open.pix.application.usecases.RegistrePixKeyUseCase;
-import com.open.pix.application.usecases.UpdatePixKeyUseCase;
+import com.open.pix.application.usecases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,5 +30,10 @@ public class PixKeyConfig {
     public InactivatePixKeyUseCase inactivatePixKeyUseCase(SavePixKeyGateway savePixKeyGateway,
                                                            FindPixKeyGateway findPixKeyGateway) {
         return new InactivatePixKeyUseCase(savePixKeyGateway, findPixKeyGateway);
+    }
+
+    @Bean
+    public SearchPixKeysUseCase searchPixKeysUseCase(SearchPixKeyGateway searchPixKeyGateway) {
+        return new SearchPixKeysUseCase(searchPixKeyGateway);
     }
 }

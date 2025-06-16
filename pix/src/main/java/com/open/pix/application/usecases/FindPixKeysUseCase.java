@@ -16,9 +16,11 @@ public class FindPixKeysUseCase {
     }
 
     public List<PixKey> findAll() {
-        return findPixKeyGateway.findAll().stream()
-                .filter(PixKey::isActive)
-                .toList();
+        List<PixKey> pixKeys = findPixKeyGateway.findAll().stream().filter(PixKey::isActive).toList();
+        if (pixKeys.isEmpty()) {
+            throw new NotFoundException("Pix keys not found");
+        }
+        return pixKeys;
     }
 
     public PixKey findById(UUID id) {

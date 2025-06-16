@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +20,7 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     @Override
     public List<PixKey> findAll() {
-        return repository.findAll().stream().map(PixKeyEntityMapper::toDomain).collect(Collectors.toList());
+        return repository.findAll().stream().map(PixKeyEntityMapper::toDomain).toList();
     }
 
     @Override

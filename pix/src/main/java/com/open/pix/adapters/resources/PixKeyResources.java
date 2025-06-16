@@ -6,20 +6,18 @@ import com.open.pix.adapters.mappers.PixKeyRequestMapper;
 import com.open.pix.adapters.mappers.PixKeyResponseMapper;
 import com.open.pix.adapters.output.PixKeyResponse;
 import com.open.pix.adapters.output.PixKeyUpdateResponse;
-import com.open.pix.application.usecases.FindPixKeysUseCase;
-import com.open.pix.application.usecases.InactivatePixKeyUseCase;
-import com.open.pix.application.usecases.RegistrePixKeyUseCase;
-import com.open.pix.application.usecases.UpdatePixKeyUseCase;
+import com.open.pix.application.usecases.*;
 import com.open.pix.domain.PixKey;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +31,35 @@ public class PixKeyResources {
     private final UpdatePixKeyUseCase updatePixKeyUseCase;
 
     private final InactivatePixKeyUseCase inactivatePixKeyUseCase;
+
+    private final SearchPixKeysUseCase searchPixKeysUseCase;
+
+    @GetMapping
+    public ResponseEntity<List<PixKeyResponse>> findAll() {
+        return ResponseEntity.ok(findPixKeysUseCase.findAll().stream()
+                .map(PixKeyResponseMapper::toResponse)
+                .toList());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<PixKeyResponse>> search(@RequestParam(required = false) String keyType,
+                                                      @RequestParam(required = false) Integer agencyNumber,
+                                                      @RequestParam(required = false) Integer accountNumber,
+                                                      @RequestParam(required = false) String name,
+                                                      @RequestParam(required = false)
+                                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                           LocalDateTime creationDate,
+                                                      @RequestParam(required = false)
+                                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                          LocalDateTime inactivationDate) {
+        List<PixKeyResponse> pixKeys = searchPixKeysUseCase.search(keyType,
+                agencyNumber,
+                accountNumber,
+                name,
+                creationDate,
+                inactivationDate).stream().map(PixKeyResponseMapper::toResponse).toList();
+        return ResponseEntity.ok(pixKeys);
+    }
 
     @PostMapping
     public ResponseEntity<Map<String, UUID>> registre(@RequestBody @Valid PixKeyRegistreRequest request) {
@@ -49,17 +76,6 @@ public class PixKeyResources {
     @DeleteMapping("/{id}")
     public ResponseEntity<PixKeyResponse> inactivate(@PathVariable("id") @Valid UUID id) {
         return ResponseEntity.ok(PixKeyResponseMapper.toResponse(inactivatePixKeyUseCase.inactivate(id)));
-    }
-
-    @GetMapping
-    public ResponseEntity<Set<PixKeyResponse>> findAll() {
-        Set<PixKeyResponse> pixKeyResponses = findPixKeysUseCase.findAll().stream()
-                .map(PixKeyResponseMapper::toResponse)
-                .collect(Collectors.toSet());
-        if (pixKeyResponses.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(pixKeyResponses);
     }
 
     @GetMapping("/{id}")
