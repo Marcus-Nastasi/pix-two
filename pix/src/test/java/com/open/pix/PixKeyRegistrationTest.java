@@ -3,7 +3,7 @@ package com.open.pix;
 import com.open.pix.application.exceptions.PixRegistreException;
 import com.open.pix.application.gateway.CountPixKeysGateway;
 import com.open.pix.application.gateway.FindPixKeyGateway;
-import com.open.pix.application.gateway.RegistrePixKeyGateway;
+import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.application.usecases.RegistrePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import com.open.pix.domain.enums.AccountNumber;
@@ -32,7 +32,7 @@ public class PixKeyRegistrationTest {
     private RegistrePixKeyUseCase useCase;
 
     @Mock
-    private RegistrePixKeyGateway registrePixKeyGateway;
+    private SavePixKeyGateway savePixKeyGateway;
 
     @Mock
     private FindPixKeyGateway findPixKeyGateway;
@@ -254,7 +254,7 @@ public class PixKeyRegistrationTest {
                 pixKey2.getAccountNumber().value(), pixKey2.getAgencyNumber().value())).thenReturn(1);
         when(findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(
                 pixKey2.getAccountNumber().value(), pixKey2.getAgencyNumber().value())).thenReturn(List.of(pixKey7));
-        when(registrePixKeyGateway.registre(pixKey2)).thenReturn(pixKey2);
+        when(savePixKeyGateway.save(pixKey2)).thenReturn(pixKey2);
 
         PixKey result = useCase.registre(pixKey2);
 
@@ -267,6 +267,6 @@ public class PixKeyRegistrationTest {
         verify(findPixKeyGateway, times(1)).findByPixValue(anyString());
         verify(countPixKeys, times(1)).countByAccountNumberAndAgencyNumber(anyInt(), anyInt());
         verify(findPixKeyGateway, times(1)).findAllByAccountNumberAndAgencyNumber(anyInt(), anyInt());
-        verify(registrePixKeyGateway, times(1)).registre(any(PixKey.class));
+        verify(savePixKeyGateway, times(1)).save(any(PixKey.class));
     }
 }

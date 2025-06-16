@@ -3,7 +3,7 @@ package com.open.pix;
 import com.open.pix.adapters.input.PixKeyUpdateRequest;
 import com.open.pix.adapters.mappers.PixKeyRequestMapper;
 import com.open.pix.application.gateway.FindPixKeyGateway;
-import com.open.pix.application.gateway.UpdatePixKeyGateway;
+import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.application.usecases.UpdatePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import com.open.pix.domain.enums.AccountNumber;
@@ -30,7 +30,7 @@ public class PixKeyUpdateTests {
     private UpdatePixKeyUseCase useCase;
 
     @Mock
-    private UpdatePixKeyGateway updatePixKeyGateway;
+    private SavePixKeyGateway savePixKeyGateway;
 
     @Mock
     private FindPixKeyGateway findPixKeyGateway;
@@ -74,7 +74,7 @@ public class PixKeyUpdateTests {
         pixKeyUpdated.setId(uuid);
 
         Mockito.when(findPixKeyGateway.findById(uuid)).thenReturn(pixKey1);
-        Mockito.when(updatePixKeyGateway.update(Mockito.any(PixKey.class))).thenReturn(pixKeyUpdated);
+        Mockito.when(savePixKeyGateway.save(Mockito.any(PixKey.class))).thenReturn(pixKeyUpdated);
 
         PixKey pixKey = useCase.update(PixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
 
@@ -83,6 +83,6 @@ public class PixKeyUpdateTests {
         Assertions.assertEquals(pixKeyUpdateRequest.firstName(), pixKey.getFirstName());
 
         Mockito.verify(findPixKeyGateway, Mockito.times(1)).findById(Mockito.any(UUID.class));
-        Mockito.verify(updatePixKeyGateway, Mockito.times(1)).update(Mockito.any(PixKey.class));
+        Mockito.verify(savePixKeyGateway, Mockito.times(1)).save(Mockito.any(PixKey.class));
     }
 }

@@ -14,16 +14,16 @@ public class PixKeyConfig {
     }
 
     @Bean
-    public RegistrePixKeyUseCase registrePixKeyUseCase(RegistrePixKeyGateway registrePixKeyGateway,
+    public RegistrePixKeyUseCase registrePixKeyUseCase(SavePixKeyGateway savePixKeyGateway,
                                                        FindPixKeyGateway findPixKeyGateway,
                                                        CountPixKeysGateway countPixKeysGateway) {
-        return new RegistrePixKeyUseCase(registrePixKeyGateway, findPixKeyGateway, countPixKeysGateway);
+        return new RegistrePixKeyUseCase(savePixKeyGateway, findPixKeyGateway, countPixKeysGateway);
     }
 
     @Bean
-    public UpdatePixKeyUseCase updatePixKeyUseCase(UpdatePixKeyGateway updatePixKeyGateway,
+    public UpdatePixKeyUseCase updatePixKeyUseCase(SavePixKeyGateway savePixKeyGateway,
                                                    FindPixKeyGateway findPixKeyGateway) {
-        return new UpdatePixKeyUseCase(updatePixKeyGateway, findPixKeyGateway);
+        return new UpdatePixKeyUseCase(savePixKeyGateway, findPixKeyGateway);
     }
 
     @Bean

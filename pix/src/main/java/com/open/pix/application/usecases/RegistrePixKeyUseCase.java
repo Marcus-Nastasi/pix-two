@@ -3,7 +3,7 @@ package com.open.pix.application.usecases;
 import com.open.pix.application.exceptions.PixRegistreException;
 import com.open.pix.application.gateway.CountPixKeysGateway;
 import com.open.pix.application.gateway.FindPixKeyGateway;
-import com.open.pix.application.gateway.RegistrePixKeyGateway;
+import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.domain.PixKey;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class RegistrePixKeyUseCase {
 
-    private final RegistrePixKeyGateway registrePixKeyGateway;
+    private final SavePixKeyGateway savePixKeyGateway;
 
     private final FindPixKeyGateway findPixKeyGateway;
 
@@ -21,10 +21,10 @@ public class RegistrePixKeyUseCase {
 
     private static final String PF = "PF";
 
-    public RegistrePixKeyUseCase(RegistrePixKeyGateway registrePixKeyGateway,
+    public RegistrePixKeyUseCase(SavePixKeyGateway savePixKeyGateway,
                                  FindPixKeyGateway findPixKeyGateway,
                                  CountPixKeysGateway countPixKeysGateway) {
-        this.registrePixKeyGateway = registrePixKeyGateway;
+        this.savePixKeyGateway = savePixKeyGateway;
         this.findPixKeyGateway = findPixKeyGateway;
         this.countPixKeysGateway = countPixKeysGateway;
     }
@@ -82,6 +82,6 @@ public class RegistrePixKeyUseCase {
         checkExistingKey(pixKey);
         checkPfOrPj(pixKey);
         pixKey.setActive(true);
-        return registrePixKeyGateway.registre(pixKey);
+        return savePixKeyGateway.save(pixKey);
     }
 }
