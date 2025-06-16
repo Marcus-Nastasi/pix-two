@@ -5,9 +5,10 @@ import com.open.pix.application.gateway.CountPixKeysGateway;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.domain.PixKey;
+import com.open.pix.domain.factory.LegalTypeFactory;
+import com.open.pix.domain.interfaces.LegalType;
 
 import java.util.List;
-import java.util.Optional;
 
 public class RegistrePixKeyUseCase {
 
@@ -17,29 +18,25 @@ public class RegistrePixKeyUseCase {
 
     private final CountPixKeysGateway countPixKeysGateway;
 
-    private static final String PJ = "PJ";
+    private final LegalTypeFactory legalTypeFactory;
 
-    private static final String PF = "PF";
+    private final int defaultLimit = 5;
 
     public RegistrePixKeyUseCase(SavePixKeyGateway savePixKeyGateway,
                                  FindPixKeyGateway findPixKeyGateway,
-                                 CountPixKeysGateway countPixKeysGateway) {
+                                 CountPixKeysGateway countPixKeysGateway,
+                                 LegalTypeFactory legalTypeFactory) {
         this.savePixKeyGateway = savePixKeyGateway;
         this.findPixKeyGateway = findPixKeyGateway;
         this.countPixKeysGateway = countPixKeysGateway;
+        this.legalTypeFactory = legalTypeFactory;
     }
 
-    // TODO: create account type resolver (factory strategy) to resolve this types
-    private String findPfOrPjAccount(PixKey pixKey) {
+    private LegalType findLegalType(PixKey pixKey) {
         List<PixKey> pixKeys = findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(
                 pixKey.getAccountNumber().value(),
                 pixKey.getAgencyNumber().value());
-        Optional<String> type = pixKeys.stream()
-                .filter(k -> k.getPixType().type().equalsIgnoreCase("cpf")
-                        || k.getPixType().type().equalsIgnoreCase("cnpj"))
-                .map(k -> k.getPixType().type())
-                .findFirst();
-        return type.orElse("").equals("cnpj") ? PJ : PF;
+        return legalTypeFactory.resolve(pixKeys);
     }
 
     private void checkExistingKey(PixKey pixKey) {
@@ -49,39 +46,38 @@ public class RegistrePixKeyUseCase {
         }
     }
 
-    private void checkPfOrPj(PixKey pixKey) {
-        String accountType = findPfOrPjAccount(pixKey);
+    private void checkLegalType(PixKey pixKey) {
+        LegalType legalType = findLegalType(pixKey);
         int count = countPixKeysGateway.countByAccountNumberAndAgencyNumber(
                 pixKey.getAccountNumber().value(),
                 pixKey.getAgencyNumber().value());
 
-        // Case pessoa física:
-        if (accountType.isEmpty() || PF.equals(accountType)) {
-            if (count == 5) {
-                throw new PixRegistreException("Limit of 5 keys reached for individual account," +
-                        " need to delete an existing key to add more.");
+        if (legalType != null) {
+            if (count == legalType.limit()) {
+                throw new PixRegistreException(legalType.getLimitErrorMessage());
             }
-            if ("cnpj".equals(pixKey.getPixType().type())) {
-                throw new PixRegistreException("Your account is type PF, cannot registre a CNPJ as pix key");
-            }
-        }
 
-        // Case pessoa jurídica:
-        if (PJ.equals(accountType)) {
-            if (count == 20) {
-                throw new PixRegistreException("Limit of 20 keys reached for legal entity account," +
-                        " need to delete an existing key to add more.");
+            if (legalType.blocks().contains(pixKey.getPixType().type())) {
+                throw new PixRegistreException(legalType.getBlockErrorMessage());
             }
-            if ("cpf".equals(pixKey.getPixType().type())) {
-                throw new PixRegistreException("Your account is type PJ, cannot registre a CPF as pix key");
+        } else {
+            if (count == defaultLimit) {
+                throw new PixRegistreException("You're on default pix keys limit of 5, if you want to" +
+                        "add more pix keys, inactivate one of yours, or contact your agency");
             }
         }
     }
 
     public PixKey registre(PixKey pixKey) {
         checkExistingKey(pixKey);
-        checkPfOrPj(pixKey);
+        checkLegalType(pixKey);
         pixKey.setActive(true);
-        return savePixKeyGateway.save(pixKey);
+        return savePixKeyGateway.save(PixKey.registerNew(pixKey.getPixType(),
+                                                        pixKey.getValue(),
+                                                        pixKey.getAccountType(),
+                                                        pixKey.getAgencyNumber(),
+                                                        pixKey.getAccountNumber(),
+                                                        pixKey.getFirstName(),
+                                                        pixKey.getLastName()));
     }
 }

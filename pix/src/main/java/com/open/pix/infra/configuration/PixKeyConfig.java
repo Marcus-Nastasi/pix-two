@@ -2,6 +2,7 @@ package com.open.pix.infra.configuration;
 
 import com.open.pix.application.gateway.*;
 import com.open.pix.application.usecases.*;
+import com.open.pix.domain.factory.LegalTypeFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,8 +17,9 @@ public class PixKeyConfig {
     @Bean
     public RegistrePixKeyUseCase registrePixKeyUseCase(SavePixKeyGateway savePixKeyGateway,
                                                        FindPixKeyGateway findPixKeyGateway,
-                                                       CountPixKeysGateway countPixKeysGateway) {
-        return new RegistrePixKeyUseCase(savePixKeyGateway, findPixKeyGateway, countPixKeysGateway);
+                                                       CountPixKeysGateway countPixKeysGateway,
+                                                       LegalTypeFactory legalTypeFactory) {
+        return new RegistrePixKeyUseCase(savePixKeyGateway, findPixKeyGateway, countPixKeysGateway, legalTypeFactory);
     }
 
     @Bean

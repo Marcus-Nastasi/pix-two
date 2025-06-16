@@ -1,10 +1,10 @@
 package com.open.pix.pix_type_tests;
 
 import com.open.pix.domain.PixKey;
-import com.open.pix.domain.enums.AccountNumber;
-import com.open.pix.domain.enums.AccountType;
-import com.open.pix.domain.enums.AgencyNumber;
-import com.open.pix.domain.enums.pixTypes.CpfPixType;
+import com.open.pix.domain.types.AccountNumber;
+import com.open.pix.domain.types.AccountType;
+import com.open.pix.domain.types.AgencyNumber;
+import com.open.pix.domain.types.pixTypes.CpfPixType;
 import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.interfaces.PixType;
 import org.junit.jupiter.api.Assertions;

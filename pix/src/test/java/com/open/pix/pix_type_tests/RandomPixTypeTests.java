@@ -1,6 +1,6 @@
 package com.open.pix.pix_type_tests;
 
-import com.open.pix.domain.enums.pixTypes.RandomPixType;
+import com.open.pix.domain.types.pixTypes.RandomPixType;
 import com.open.pix.domain.exceptions.PixTypeException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

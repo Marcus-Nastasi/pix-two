@@ -1,6 +1,6 @@
 package com.open.pix.agency_number_tests;
 
-import com.open.pix.domain.enums.AgencyNumber;
+import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.exceptions.AgencyNumberException;
 import org.junit.jupiter.api.Test;
 

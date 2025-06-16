@@ -1,4 +1,4 @@
-package com.open.pix.domain.enums;
+package com.open.pix.domain.types;
 
 import com.open.pix.domain.exceptions.AgencyNumberException;
 

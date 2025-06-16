@@ -1,8 +1,8 @@
 package com.open.pix.domain;
 
-import com.open.pix.domain.enums.AccountNumber;
-import com.open.pix.domain.enums.AccountType;
-import com.open.pix.domain.enums.AgencyNumber;
+import com.open.pix.domain.types.AccountNumber;
+import com.open.pix.domain.types.AccountType;
+import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.interfaces.PixType;
 import lombok.*;

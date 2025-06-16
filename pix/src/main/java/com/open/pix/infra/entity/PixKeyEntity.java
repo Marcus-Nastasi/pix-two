@@ -24,18 +24,18 @@ public class PixKeyEntity {
     private UUID id;
 
     @NotBlank
-    @Column(name = "type", length = 9, nullable = false)
     @Size(max = 9)
+    @Column(name = "type", length = 9, nullable = false)
     private String pixType;
 
     @NotBlank
-    @Column(name = "value", length = 77, nullable = false)
     @Size(max = 77)
+    @Column(name = "value", length = 77, nullable = false, unique = true)
     private String value;
 
     @NotBlank
-    @Column(name = "account_type", length = 10, nullable = false)
     @Size(max = 10)
+    @Column(name = "account_type", length = 10, nullable = false)
     private String accountType;
 
     @NotNull

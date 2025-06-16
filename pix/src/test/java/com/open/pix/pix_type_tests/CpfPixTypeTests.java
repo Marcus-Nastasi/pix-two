@@ -1,6 +1,6 @@
 package com.open.pix.pix_type_tests;
 
-import com.open.pix.domain.enums.pixTypes.CpfPixType;
+import com.open.pix.domain.types.pixTypes.CpfPixType;
 import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.interfaces.PixType;
 import org.junit.jupiter.api.Assertions;

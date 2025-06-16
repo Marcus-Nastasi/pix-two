@@ -1,6 +1,6 @@
 package com.open.pix.account_type_tests;
 
-import com.open.pix.domain.enums.AccountType;
+import com.open.pix.domain.types.AccountType;
 import com.open.pix.domain.exceptions.AccountTypeException;
 import org.junit.jupiter.api.Test;
 

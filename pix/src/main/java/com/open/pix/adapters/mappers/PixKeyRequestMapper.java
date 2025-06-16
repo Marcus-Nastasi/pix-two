@@ -3,9 +3,9 @@ package com.open.pix.adapters.mappers;
 import com.open.pix.adapters.input.PixKeyRegistreRequest;
 import com.open.pix.adapters.input.PixKeyUpdateRequest;
 import com.open.pix.domain.PixKey;
-import com.open.pix.domain.enums.AccountNumber;
-import com.open.pix.domain.enums.AccountType;
-import com.open.pix.domain.enums.AgencyNumber;
+import com.open.pix.domain.types.AccountNumber;
+import com.open.pix.domain.types.AccountType;
+import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.factory.PixTypeFactory;
 
 public class PixKeyRequestMapper {

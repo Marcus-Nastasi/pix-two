@@ -1,9 +1,9 @@
 package com.open.pix.infra.mappers;
 
 import com.open.pix.domain.PixKey;
-import com.open.pix.domain.enums.AccountNumber;
-import com.open.pix.domain.enums.AccountType;
-import com.open.pix.domain.enums.AgencyNumber;
+import com.open.pix.domain.types.AccountNumber;
+import com.open.pix.domain.types.AccountType;
+import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.factory.PixTypeFactory;
 import com.open.pix.infra.entity.PixKeyEntity;
 

@@ -1,4 +1,4 @@
-package com.open.pix.domain.enums.pixTypes;
+package com.open.pix.domain.types.pixTypes;
 
 import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.interfaces.PixType;
