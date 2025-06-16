@@ -7,6 +7,8 @@ import com.open.pix.infra.mappers.PixKeyEntityMapper;
 import com.open.pix.infra.persistency.PixKeyRepository;
 import com.open.pix.infra.specification.SearchPixKeySpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +27,18 @@ public class SearchPixKeyGatewayImpl implements SearchPixKeyGateway {
                                Integer account,
                                String holderName,
                                LocalDateTime inclusionDate,
-                               LocalDateTime inactivationDate) {
+                               LocalDateTime inactivationDate,
+                               int page,
+                               int size) {
         Specification<PixKeyEntity> spec = Specification.where(SearchPixKeySpecification.hasPixType(keyType))
                 .and(SearchPixKeySpecification.hasAgencyAndAccount(agency, account))
                 .and(SearchPixKeySpecification.hasHolderName(holderName))
                 .and(SearchPixKeySpecification.hasInclusionDate(inclusionDate))
                 .and(SearchPixKeySpecification.hasInactivationDate(inactivationDate));
 
-        return repository.findAll(spec).stream().map(PixKeyEntityMapper::toDomain).toList();
+        return repository.findAll(spec, PageRequest.of(page, size, Sort.by("creationDateTime").ascending()))
+                .stream()
+                .map(PixKeyEntityMapper::toDomain)
+                .toList();
     }
 }

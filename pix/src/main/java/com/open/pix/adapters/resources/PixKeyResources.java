@@ -52,13 +52,17 @@ public class PixKeyResources {
                                                            LocalDateTime creationDate,
                                                       @RequestParam(required = false)
                                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                          LocalDateTime inactivationDate) {
+                                                          LocalDateTime inactivationDate,
+                                                      @RequestParam(defaultValue = "0") int page,
+                                                      @RequestParam(defaultValue = "10") int size) {
         List<PixKeyResponse> pixKeys = searchPixKeysUseCase.search(keyType,
                 agencyNumber,
                 accountNumber,
                 name,
                 creationDate,
-                inactivationDate).stream().map(PixKeyResponseMapper::toResponse).toList();
+                inactivationDate,
+                page,
+                size).stream().map(PixKeyResponseMapper::toResponse).toList();
         return ResponseEntity.ok(pixKeys);
     }
 

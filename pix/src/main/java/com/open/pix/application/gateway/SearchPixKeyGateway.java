@@ -13,5 +13,7 @@ public interface SearchPixKeyGateway {
                         Integer account,
                         String holderName,
                         LocalDateTime inclusionDate,
-                        LocalDateTime inactivationDate);
+                        LocalDateTime inactivationDate,
+                        int page,
+                        int size);
 }

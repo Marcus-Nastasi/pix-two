@@ -19,7 +19,9 @@ public class SearchPixKeysUseCase {
                                Integer account,
                                String holderName,
                                LocalDateTime inclusionDate,
-                               LocalDateTime inactivationDate) {
-        return searchPixKeyGateway.search(keyType, agency, account, holderName, inclusionDate, inactivationDate);
+                               LocalDateTime inactivationDate,
+                               int page,
+                               int size) {
+        return searchPixKeyGateway.search(keyType, agency, account, holderName, inclusionDate, inactivationDate, page, size);
     }
 }
