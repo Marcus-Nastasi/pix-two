@@ -9,6 +9,7 @@ import com.open.pix.domain.factory.LegalTypeFactory;
 import com.open.pix.domain.interfaces.LegalType;
 
 import java.util.List;
+import java.util.Optional;
 
 public class RegistrePixKeyUseCase {
 
@@ -32,11 +33,11 @@ public class RegistrePixKeyUseCase {
         this.legalTypeFactory = legalTypeFactory;
     }
 
-    private LegalType findLegalType(PixKey pixKey) {
+    private Optional<LegalType> findLegalType(PixKey pixKey) {
         List<PixKey> pixKeys = findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(
                 pixKey.getAccountNumber().value(),
                 pixKey.getAgencyNumber().value());
-        return legalTypeFactory.resolve(pixKeys);
+        return Optional.ofNullable(legalTypeFactory.resolve(pixKeys));
     }
 
     private void checkExistingKey(PixKey pixKey) {
@@ -47,31 +48,31 @@ public class RegistrePixKeyUseCase {
     }
 
     private void checkLegalType(PixKey pixKey) {
-        LegalType legalType = findLegalType(pixKey);
+        Optional<LegalType> legalType = findLegalType(pixKey);
         int count = countPixKeysGateway.countByAccountNumberAndAgencyNumber(
                 pixKey.getAccountNumber().value(),
                 pixKey.getAgencyNumber().value());
-
-        if (legalType != null) {
-            if (count == legalType.limit()) {
-                throw new PixRegistreException(legalType.getLimitErrorMessage());
+        legalType.ifPresentOrElse(
+            type -> {
+                if (count == type.limit()) {
+                    throw new PixRegistreException(type.getLimitErrorMessage());
+                }
+                if (type.blocks().contains(pixKey.getPixType().type())) {
+                    throw new PixRegistreException(type.getBlockErrorMessage());
+                }
+            },
+            () -> {
+                if (count == defaultLimit) {
+                    throw new PixRegistreException("You're on default pix keys limit of 5, if you want to" +
+                            "add more pix keys, inactivate one of yours, or contact your agency");
+                }
             }
-
-            if (legalType.blocks().contains(pixKey.getPixType().type())) {
-                throw new PixRegistreException(legalType.getBlockErrorMessage());
-            }
-        } else {
-            if (count == defaultLimit) {
-                throw new PixRegistreException("You're on default pix keys limit of 5, if you want to" +
-                        "add more pix keys, inactivate one of yours, or contact your agency");
-            }
-        }
+        );
     }
 
     public PixKey registre(PixKey pixKey) {
         checkExistingKey(pixKey);
         checkLegalType(pixKey);
-        pixKey.setActive(true);
         return savePixKeyGateway.save(PixKey.registerNew(pixKey.getPixType(),
                                                         pixKey.getValue(),
                                                         pixKey.getAccountType(),
