@@ -1,10 +1,11 @@
 package com.open.pix.domain.factory;
 
 import com.open.pix.domain.PixKey;
-import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.interfaces.LegalType;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LegalTypeFactory {
 
@@ -18,17 +19,15 @@ public class LegalTypeFactory {
         if (pixKeys.isEmpty()) {
             return null;
         }
+        Set<String> pixTypes = pixKeys.stream()
+                .map(p -> p.getPixType().type())
+                .collect(Collectors.toSet());
         LegalType legalType = null;
         for (LegalType type: legalTypes) {
-            for (PixKey pixKey: pixKeys) {
-                if (type.supports(pixKey.getPixType().type())) {
-                    legalType = type.resolve();
-                    break;
-                }
+            if (pixTypes.contains(type.value())) {
+                legalType = type.resolve();
+                break;
             }
-        }
-        if (legalType == null) {
-            throw new PixTypeException("null legal type");
         }
         return legalType;
     }
