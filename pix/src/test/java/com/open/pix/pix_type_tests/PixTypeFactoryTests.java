@@ -5,38 +5,44 @@ import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.factory.PixTypeFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 public class PixTypeFactoryTests {
+
+    @Autowired
+    private PixTypeFactory pixTypeFactory;
 
     @Test
     void mustCreateCpfPixType() {
-        Assertions.assertEquals(CpfPixType.class, PixTypeFactory.newPixType("cpf", "77525208026").getClass());
+        Assertions.assertEquals(CpfPixType.class, pixTypeFactory.newPixType("cpf", "77525208026").getClass());
     }
 
     @Test
     void mustCreateCnpjPixType() {
-        Assertions.assertEquals(CnpjPixType.class, PixTypeFactory.newPixType("cnpj", "54197972000147").getClass());
+        Assertions.assertEquals(CnpjPixType.class, pixTypeFactory.newPixType("cnpj", "54197972000147").getClass());
     }
 
     @Test
     void mustCreateEmailPixType() {
-        Assertions.assertEquals(EmailPixType.class, PixTypeFactory.newPixType("email", "email@gmail.com").getClass());
+        Assertions.assertEquals(EmailPixType.class, pixTypeFactory.newPixType("email", "email@gmail.com").getClass());
     }
 
     @Test
     void mustCreatePhonePixType() {
-        Assertions.assertEquals(PhonePixType.class, PixTypeFactory.newPixType("celular", "+55 11 123456789").getClass());
+        Assertions.assertEquals(PhonePixType.class, pixTypeFactory.newPixType("celular", "+55 11 123456789").getClass());
     }
 
     @Test
     void mustCreateRandomPixType() {
         Assertions.assertEquals(RandomPixType.class,
-                PixTypeFactory.newPixType("aleatorio", "dcta478j196l03fmt6gh4298er7845m2").getClass());
+                pixTypeFactory.newPixType("aleatorio", "dcta478j196l03fmt6gh4298er7845m2").getClass());
     }
 
     @Test
     void mustThrowOnUnknownPixType() {
         Assertions.assertThrows(PixTypeException.class,
-                () -> PixTypeFactory.newPixType("   ", "123456789").getClass());
+                () -> pixTypeFactory.newPixType("   ", "123456789").getClass());
     }
 }

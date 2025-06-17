@@ -20,11 +20,13 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     private final PixKeyRepository repository;
 
+    private final PixKeyEntityMapper pixKeyEntityMapper;
+
     @Override
     public List<PixKey> findAll(int page, int size) {
         return repository.findAll(PageRequest.of(page, size, Sort.by("creationDateTime").ascending()))
                 .stream()
-                .map(PixKeyEntityMapper::toDomain)
+                .map(pixKeyEntityMapper::toDomain)
                 .toList();
     }
 
@@ -32,13 +34,13 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
     public List<PixKey> findAllByAccountNumberAndAgencyNumber(Integer accountNumber, Integer agencyNumber) {
         return repository.findAllByAccountNumberAndAgencyNumberAndActiveTrue(accountNumber, agencyNumber)
                 .stream()
-                .map(PixKeyEntityMapper::toDomain)
+                .map(pixKeyEntityMapper::toDomain)
                 .toList();
     }
 
     @Override
     public PixKey findById(UUID id) {
-        return PixKeyEntityMapper.toDomain(repository.findById(id)
+        return pixKeyEntityMapper.toDomain(repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Pix key not found")));
     }
 
@@ -48,6 +50,6 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
         if (pixKey == null) {
             return null;
         }
-        return PixKeyEntityMapper.toDomain(pixKey);
+        return pixKeyEntityMapper.toDomain(pixKey);
     }
 }

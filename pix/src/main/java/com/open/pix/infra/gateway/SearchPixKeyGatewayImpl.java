@@ -21,6 +21,8 @@ public class SearchPixKeyGatewayImpl implements SearchPixKeyGateway {
 
     private final PixKeyRepository repository;
 
+    private final PixKeyEntityMapper pixKeyEntityMapper;
+
     @Override
     public List<PixKey> search(String keyType,
                                Integer agency,
@@ -38,7 +40,7 @@ public class SearchPixKeyGatewayImpl implements SearchPixKeyGateway {
 
         return repository.findAll(spec, PageRequest.of(page, size, Sort.by("creationDateTime").ascending()))
                 .stream()
-                .map(PixKeyEntityMapper::toDomain)
+                .map(pixKeyEntityMapper::toDomain)
                 .toList();
     }
 }

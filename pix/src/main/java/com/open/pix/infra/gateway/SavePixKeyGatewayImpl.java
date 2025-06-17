@@ -14,9 +14,11 @@ public class SavePixKeyGatewayImpl implements SavePixKeyGateway {
 
     private final PixKeyRepository repository;
 
+    private final PixKeyEntityMapper pixKeyEntityMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PixKey save(PixKey pixKey) {
-        return PixKeyEntityMapper.toDomain(repository.save(PixKeyEntityMapper.toEntity(pixKey)));
+        return pixKeyEntityMapper.toDomain(repository.save(PixKeyEntityMapper.toEntity(pixKey)));
     }
 }

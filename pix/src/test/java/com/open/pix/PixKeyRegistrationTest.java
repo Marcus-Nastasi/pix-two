@@ -7,14 +7,18 @@ import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.application.usecases.RegistrePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import com.open.pix.domain.factory.LegalTypeFactory;
-import com.open.pix.domain.types.*;
 import com.open.pix.domain.factory.PixTypeFactory;
+import com.open.pix.domain.types.*;
+
+import com.open.pix.domain.types.pixTypes.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -22,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @ExtendWith(MockitoExtension.class)
 public class PixKeyRegistrationTest {
@@ -29,6 +34,14 @@ public class PixKeyRegistrationTest {
     @Spy
     @InjectMocks
     private RegistrePixKeyUseCase useCase;
+
+    private final PixTypeFactory pixTypeFactory = new PixTypeFactory(Map.of(
+        "cpf", CpfPixType::new,
+        "cnpj", CnpjPixType::new,
+        "email", EmailPixType::new,
+        "celular", PhonePixType::new,
+        "aleatorio", RandomPixType::new
+    ));
 
     @Mock
     private SavePixKeyGateway savePixKeyGateway;
@@ -42,7 +55,7 @@ public class PixKeyRegistrationTest {
     @Mock
     private LegalTypeFactory legalTypeFactory;
 
-    private final PixKey pixKey1 = PixKey.registerNew(PixTypeFactory.newPixType("cpf", "72356804072"),
+    private final PixKey pixKey1 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
                                                       "72356804072",
                                                       new AccountType("corrente"),
                                                       new AgencyNumber(1234),
@@ -50,7 +63,7 @@ public class PixKeyRegistrationTest {
                                                       "Mark",
                                                       "Jhones");
 
-    private final PixKey pixKey1_2 = PixKey.registerNew(PixTypeFactory.newPixType("celular", "+55 13 123456789"),
+    private final PixKey pixKey1_2 = PixKey.registerNew(pixTypeFactory.newPixType("celular", "+55 13 123456789"),
             "+55 13 123456789",
             new AccountType("corrente"),
             new AgencyNumber(1234),
@@ -58,7 +71,7 @@ public class PixKeyRegistrationTest {
             "Mark",
             "Jhones");
 
-    private final PixKey pixKey1_3 = PixKey.registerNew(PixTypeFactory.newPixType("email", "mark.jones@gmail.com"),
+    private final PixKey pixKey1_3 = PixKey.registerNew(pixTypeFactory.newPixType("email", "mark.jones@gmail.com"),
             "mark.jones@gmail.com",
             new AccountType("corrente"),
             new AgencyNumber(1234),
@@ -66,7 +79,7 @@ public class PixKeyRegistrationTest {
             "Mark",
             "Jhones");
 
-    private final PixKey pixKey1_4 = PixKey.registerNew(PixTypeFactory.newPixType("aleatorio", "dcta478j196l03fmt6gh4298er7845m2"),
+    private final PixKey pixKey1_4 = PixKey.registerNew(pixTypeFactory.newPixType("aleatorio", "dcta478j196l03fmt6gh4298er7845m2"),
             "dcta478j196l03fmt6gh4298er7845m2",
             new AccountType("corrente"),
             new AgencyNumber(1234),
@@ -74,7 +87,7 @@ public class PixKeyRegistrationTest {
             "Mark",
             "Jhones");
 
-    private final PixKey pixKey1_5 = PixKey.registerNew(PixTypeFactory.newPixType("aleatorio", "octa478j196l03fmt6gh4298er7845m2"),
+    private final PixKey pixKey1_5 = PixKey.registerNew(pixTypeFactory.newPixType("aleatorio", "octa478j196l03fmt6gh4298er7845m2"),
             "octa478j196l03fmt6gh4298er7845m2",
             new AccountType("corrente"),
             new AgencyNumber(1234),
@@ -82,7 +95,7 @@ public class PixKeyRegistrationTest {
             "Mark",
             "Jhones");
 
-    private final PixKey pixKey1_6 = PixKey.registerNew(PixTypeFactory.newPixType("aleatorio", "xyzs478j196l03fmt6gh4298er7845m2"),
+    private final PixKey pixKey1_6 = PixKey.registerNew(pixTypeFactory.newPixType("aleatorio", "xyzs478j196l03fmt6gh4298er7845m2"),
             "xyzs478j196l03fmt6gh4298er7845m2",
             new AccountType("corrente"),
             new AgencyNumber(1234),
@@ -93,7 +106,7 @@ public class PixKeyRegistrationTest {
     private final List<PixKey> markJhonesPixKeys = new ArrayList<>(List.of(pixKey1,
             pixKey1_2, pixKey1_3, pixKey1_4, pixKey1_5));
 
-    private final PixKey duplicatedPixKey1 = PixKey.registerNew(PixTypeFactory.newPixType("cpf", "72356804072"),
+    private final PixKey duplicatedPixKey1 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
                                                                 "72356804072",
                                                                 new AccountType("corrente"),
                                                                 new AgencyNumber(8984),
@@ -101,7 +114,7 @@ public class PixKeyRegistrationTest {
                                                                 "Bob",
                                                                 "Kane");
 
-    private final PixKey pixKey2 = PixKey.registerNew(PixTypeFactory.newPixType("cnpj", "56724791000157"),
+    private final PixKey pixKey2 = PixKey.registerNew(pixTypeFactory.newPixType("cnpj", "56724791000157"),
                                                         "56724791000157",
                                                         new AccountType("poupança"),
                                                         new AgencyNumber(2345),
@@ -109,7 +122,7 @@ public class PixKeyRegistrationTest {
                                                         "Rosa",
                                                         "Linda");
 
-    private final PixKey pixKey3 = PixKey.registerNew(PixTypeFactory.newPixType("email", "lucas.santos@example.com"),
+    private final PixKey pixKey3 = PixKey.registerNew(pixTypeFactory.newPixType("email", "lucas.santos@example.com"),
                                                         "lucas.santos@example.com",
                                                         new AccountType("corrente"),
                                                         new AgencyNumber(1111),
@@ -117,7 +130,7 @@ public class PixKeyRegistrationTest {
                                                         "Lucas",
                                                         "Santos");
 
-    private final PixKey pixKey4 = PixKey.registerNew(PixTypeFactory.newPixType("celular", "+55 11 987654321"),
+    private final PixKey pixKey4 = PixKey.registerNew(pixTypeFactory.newPixType("celular", "+55 11 987654321"),
                                                         "+55 11 987654321",
                                                         new AccountType("poupança"),
                                                         new AgencyNumber(2222),
@@ -125,7 +138,7 @@ public class PixKeyRegistrationTest {
                                                         "Ana",
                                                         "Costa");
 
-    private final PixKey pixKey5 = PixKey.registerNew(PixTypeFactory.newPixType("aleatorio", "a7f3a16b9a3d4f89857a1cf8aef9c23d"),
+    private final PixKey pixKey5 = PixKey.registerNew(pixTypeFactory.newPixType("aleatorio", "a7f3a16b9a3d4f89857a1cf8aef9c23d"),
             "a7f3a16b9a3d4f89857a1cf8aef9c23d",
             new AccountType("corrente"),
             new AgencyNumber(3333),
@@ -133,7 +146,7 @@ public class PixKeyRegistrationTest {
             "Pedro",
             "Moraes");
 
-    private final PixKey pixKey6 = PixKey.registerNew(PixTypeFactory.newPixType("cpf", "56923651034"),
+    private final PixKey pixKey6 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "56923651034"),
             "56923651034",
             new AccountType("poupança"),
             new AgencyNumber(4444),
@@ -141,7 +154,7 @@ public class PixKeyRegistrationTest {
             "Juliana",
             "Silva");
 
-    private final PixKey pixKey7 = PixKey.registerNew(PixTypeFactory.newPixType("cnpj", "01244335000118"),
+    private final PixKey pixKey7 = PixKey.registerNew(pixTypeFactory.newPixType("cnpj", "01244335000118"),
             "01244335000118",
             new AccountType("corrente"),
             new AgencyNumber(5555),
@@ -149,7 +162,7 @@ public class PixKeyRegistrationTest {
             "Empresa",
             "NovaTech");
 
-    private final PixKey pixKey8 = PixKey.registerNew(PixTypeFactory.newPixType("email", "carla.monteiro@example.com"),
+    private final PixKey pixKey8 = PixKey.registerNew(pixTypeFactory.newPixType("email", "carla.monteiro@example.com"),
             "carla.monteiro@example.com",
             new AccountType("poupança"),
             new AgencyNumber(6666),
@@ -157,7 +170,7 @@ public class PixKeyRegistrationTest {
             "Carla",
             "Monteiro");
 
-    private final PixKey pixKey9 = PixKey.registerNew(PixTypeFactory.newPixType("celular", "+55 21 998877665"),
+    private final PixKey pixKey9 = PixKey.registerNew(pixTypeFactory.newPixType("celular", "+55 21 998877665"),
             "+55 21 998877665",
             new AccountType("corrente"),
             new AgencyNumber(7777),
@@ -165,7 +178,7 @@ public class PixKeyRegistrationTest {
             "Fernando",
             "Lima");
 
-    private final PixKey pixKey10 = PixKey.registerNew(PixTypeFactory.newPixType("aleatorio", "f9e1bdf2bd2640c39f2df84df32f5b5e"),
+    private final PixKey pixKey10 = PixKey.registerNew(pixTypeFactory.newPixType("aleatorio", "f9e1bdf2bd2640c39f2df84df32f5b5e"),
             "f9e1bdf2bd2640c39f2df84df32f5b5e",
             new AccountType("corrente"),
             new AgencyNumber(8888),
@@ -173,7 +186,7 @@ public class PixKeyRegistrationTest {
             "Beatriz",
             "Ferreira");
 
-    private final PixKey pixKey11 = PixKey.registerNew(PixTypeFactory.newPixType("cpf", "90288348001"),
+    private final PixKey pixKey11 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "90288348001"),
             "90288348001",
             new AccountType("poupança"),
             new AgencyNumber(9999),
@@ -181,7 +194,7 @@ public class PixKeyRegistrationTest {
             "Rodrigo",
             "Souza");
 
-    private final PixKey pixKey12 = PixKey.registerNew(PixTypeFactory.newPixType("cnpj", "67435654000119"),
+    private final PixKey pixKey12 = PixKey.registerNew(pixTypeFactory.newPixType("cnpj", "67435654000119"),
             "67435654000119",
             new AccountType("corrente"),
             new AgencyNumber(1212),

@@ -11,6 +11,7 @@ import com.open.pix.domain.types.AccountType;
 import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.factory.PixTypeFactory;
+import com.open.pix.domain.types.pixTypes.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Map;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +31,14 @@ public class PixKeyUpdateTests {
     @InjectMocks
     private UpdatePixKeyUseCase useCase;
 
+    private final PixTypeFactory pixTypeFactory = new PixTypeFactory(Map.of(
+            "cpf", CpfPixType::new,
+            "cnpj", CnpjPixType::new,
+            "email", EmailPixType::new,
+            "celular", PhonePixType::new,
+            "aleatorio", RandomPixType::new
+    ));
+
     @Mock
     private SavePixKeyGateway savePixKeyGateway;
 
@@ -37,7 +47,7 @@ public class PixKeyUpdateTests {
 
     private final UUID uuid = UUID.randomUUID();
 
-    private final PixKey pixKey1 = PixKey.registerNew(PixTypeFactory.newPixType("cpf", "72356804072"),
+    private final PixKey pixKey1 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
             "72356804072",
             new AccountType("corrente"),
             new AgencyNumber(1234),
@@ -45,7 +55,7 @@ public class PixKeyUpdateTests {
             "Mark",
             "Jhones");
 
-    private final PixKey pixKeyUpdated = PixKey.registerNew(PixTypeFactory.newPixType("cpf", "72356804072"),
+    private final PixKey pixKeyUpdated = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
             "72356804072",
             new AccountType("corrente"),
             new AgencyNumber(1234),

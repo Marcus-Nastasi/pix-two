@@ -1,24 +1,20 @@
 package com.open.pix.domain.factory;
 
-import com.open.pix.domain.types.pixTypes.*;
 import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.interfaces.PixType;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 public final class PixTypeFactory {
 
-    private static final Map<String, Function<String, PixType>> PIX_TYPE_MAP = new HashMap<>(Map.of(
-            "cpf", CpfPixType::new,
-            "cnpj", CnpjPixType::new,
-            "email", EmailPixType::new,
-            "celular", PhonePixType::new,
-            "aleatorio", RandomPixType::new
-    ));
+    private final Map<String, Function<String, PixType>> PIX_TYPE_MAP;
 
-    public static PixType newPixType(String type, String value) {
+    public PixTypeFactory(Map<String, Function<String, PixType>> PIX_TYPE_MAP) {
+        this.PIX_TYPE_MAP = PIX_TYPE_MAP;
+    }
+
+    public PixType newPixType(String type, String value) {
         if (type == null) {
             throw new PixTypeException("Pix type cannot be null");
         }

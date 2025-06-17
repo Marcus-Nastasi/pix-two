@@ -7,12 +7,18 @@ import com.open.pix.domain.types.AccountNumber;
 import com.open.pix.domain.types.AccountType;
 import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.factory.PixTypeFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class PixKeyRequestMapper {
 
-    public static PixKey fromRegistre(PixKeyRegistreRequest pixKey) {
+    private final PixTypeFactory pixTypeFactory;
+
+    public PixKey fromRegistre(PixKeyRegistreRequest pixKey) {
         return PixKey.builder()
-                .pixType(PixTypeFactory.newPixType(pixKey.pixType(), pixKey.value()))
+                .pixType(pixTypeFactory.newPixType(pixKey.pixType(), pixKey.value()))
                 .value(pixKey.value())
                 .accountType(new AccountType(pixKey.accountType()))
                 .agencyNumber(new AgencyNumber(pixKey.agencyNumber()))

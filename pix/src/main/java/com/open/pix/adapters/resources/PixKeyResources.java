@@ -34,6 +34,8 @@ public class PixKeyResources {
 
     private final SearchPixKeysUseCase searchPixKeysUseCase;
 
+    private final PixKeyRequestMapper pixKeyRequestMapper;
+
     @GetMapping
     public ResponseEntity<List<PixKeyResponse>> findAll(@RequestParam(defaultValue = "0") int page,
                                                         @RequestParam(defaultValue = "10") int size) {
@@ -68,7 +70,7 @@ public class PixKeyResources {
 
     @PostMapping
     public ResponseEntity<Map<String, UUID>> registre(@RequestBody @Valid PixKeyRegistreRequest request) {
-        PixKey newPixKey = registrePixKeyUseCase.registre(PixKeyRequestMapper.fromRegistre(request));
+        PixKey newPixKey = registrePixKeyUseCase.registre(pixKeyRequestMapper.fromRegistre(request));
         return ResponseEntity.ok(Map.of("id", newPixKey.getId()));
     }
 

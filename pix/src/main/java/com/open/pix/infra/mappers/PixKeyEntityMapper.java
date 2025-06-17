@@ -6,13 +6,19 @@ import com.open.pix.domain.types.AccountType;
 import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.factory.PixTypeFactory;
 import com.open.pix.infra.entity.PixKeyEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
+@RequiredArgsConstructor
 public class PixKeyEntityMapper {
 
-    public static PixKey toDomain(PixKeyEntity pixKey) {
+    private final PixTypeFactory pixTypeFactory;
+
+    public PixKey toDomain(PixKeyEntity pixKey) {
         return PixKey.builder()
                 .id(pixKey.getId())
-                .pixType(PixTypeFactory.newPixType(pixKey.getPixType(), pixKey.getValue()))
+                .pixType(pixTypeFactory.newPixType(pixKey.getPixType(), pixKey.getValue()))
                 .value(pixKey.getValue())
                 .accountType(new AccountType(pixKey.getAccountType()))
                 .agencyNumber(new AgencyNumber(pixKey.getAgencyNumber()))
