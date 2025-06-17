@@ -17,6 +17,11 @@ public class InactivatePixKeyUseCase {
         this.findPixKeyGateway = findPixKeyGateway;
     }
 
+    /**
+     * Method to inactivate and save a pix key.
+     * @param id the pix key id.
+     * @return the {@link PixKey} object that was inactivated.
+     */
     public PixKey inactivate(UUID id) {
         PixKey pixKey = findPixKeyGateway.findById(id);
         pixKey.inactivate();
