@@ -1,11 +1,13 @@
 package com.open.pix.adapters.input;
 
+import jakarta.validation.constraints.NotNull;
+
 public record PixKeyRegistreRequest(
-        String pixType,
-        String value,
-        String accountType,
-        Integer agencyNumber,
-        Integer accountNumber,
-        String firstName,
+        @NotNull String pixType,
+        @NotNull String value,
+        @NotNull String accountType,
+        @NotNull Integer agencyNumber,
+        @NotNull Integer accountNumber,
+        @NotNull String firstName,
         String lastName
 ) {}
