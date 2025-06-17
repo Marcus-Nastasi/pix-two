@@ -1,5 +1,6 @@
 package com.open.pix;
 
+import com.open.pix.application.exceptions.NotFoundException;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.application.usecases.InactivatePixKeyUseCase;
@@ -62,8 +63,9 @@ public class PixKeyInactivateTests {
 
     @Test
     void shouldThrowOnAlreadyInactivatedKey() {
-        pixKey1.inactivate();
         pixKey1.setId(UUID.randomUUID());
+        pixKey1.inactivate();
+
         when(findPixKeyGateway.findById(any(UUID.class))).thenReturn(pixKey1);
 
         PixKeyException exception = assertThrows(PixKeyException.class, () -> {
@@ -71,8 +73,10 @@ public class PixKeyInactivateTests {
         });
 
         assertEquals("Already inactivated", exception.getMessage());
+        assertFalse(pixKey1.isActive());
 
-        verify(findPixKeyGateway, times(1)).findById(any(UUID.class));
+        verify(findPixKeyGateway, times(1)).findById(pixKey1.getId());
+        verifyNoInteractions(savePixKeyGateway);
     }
 
     @Test
@@ -85,9 +89,29 @@ public class PixKeyInactivateTests {
         when(findPixKeyGateway.findById(uuid)).thenReturn(pixKey1);
         when(savePixKeyGateway.save(any(PixKey.class))).thenReturn(inactivePixKey);
 
-        assertDoesNotThrow(() -> useCase.inactivate(uuid));
+        PixKey result = assertDoesNotThrow(() -> useCase.inactivate(uuid));
 
-        verify(findPixKeyGateway, times(1)).findById(any(UUID.class));
+        assertNotNull(result);
+        assertEquals(uuid, result.getId());
+        assertTrue(result.isActive());
+
+        verify(findPixKeyGateway, times(1)).findById(uuid);
         verify(savePixKeyGateway, times(1)).save(any(PixKey.class));
+    }
+
+    @Test
+    void shouldThrowIfPixKeyNotFound() {
+        UUID randomId = UUID.randomUUID();
+
+        when(findPixKeyGateway.findById(randomId)).thenReturn(null);
+
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            useCase.inactivate(randomId);
+        });
+
+        assertEquals("Pix key not found", exception.getMessage());
+
+        verify(findPixKeyGateway, times(1)).findById(randomId);
+        verifyNoInteractions(savePixKeyGateway);
     }
 }
