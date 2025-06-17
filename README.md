@@ -15,15 +15,21 @@ Esse projeto simula operações baseadas em chaves pix.
 - **Open API (Swagger)**
 
 ## Arquitetura:
-O projeto foi elaborado seguindo os princípios de arquitetura limpa (Uncle Bob), e segue a metodologia **12-Factor**:
+O projeto foi elaborado seguindo os princípios de **Arquitetura Limpa (Uncle Bob)**,
+- **Divisão de camadas**: É dividido em camadas com responsabilidades separadas.
+- **Isolamento**: Garante isolamento entre a camada de domínio, aplicação, infraestrutura e portas.
+- **Flexibilidade**: O padrão arquitetural adotado permite total flexibilidade. Com a camada de domínio e 
+   regras de negócio separadas de infraestrutura, o projeto é facilmente adaptável a mudanças de frameworks 
+   e bibliotecas sem que as regras de negócio sejam afetadas.
+- **SOLID**: O projeto visa seguir os princípios SOLID, garantindo escalabilidade e evitando bad smells.
 
+Metodologia **12-Factor**:
 - **Ambientes**: Ambiente controlado pelo docker e docker compose, garantindo igualdade de ambientes de execução.
-- **Versionamento**: Uso de Git para versionamento e 
-- **Testes**: **60 testes** unitários garantindo as regras de negócio da aplicação.
+- **Versionamento**: Uso de Git e GitHub para versionamento. 
+- **Testes**: **60 testes** unitários garantindo o devido funcionamento das regras de negócio da aplicação.
 - **Isolamento**: Separação de responsabilidades em camadas da aplicação.
 
 ## Como executar:
-
 ### Pré-requisitos:
 - **Git**
 - **java 21 (JDK) e Maven**
