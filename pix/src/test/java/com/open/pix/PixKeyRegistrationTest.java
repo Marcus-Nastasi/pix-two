@@ -17,13 +17,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,38 +119,6 @@ public class PixKeyRegistrationTest {
                                                         "Rosa",
                                                         "Linda");
 
-    private final PixKey pixKey3 = PixKey.registerNew(pixTypeFactory.newPixType("email", "lucas.santos@example.com"),
-                                                        "lucas.santos@example.com",
-                                                        new AccountType("corrente"),
-                                                        new AgencyNumber(1111),
-                                                        new AccountNumber(1002003),
-                                                        "Lucas",
-                                                        "Santos");
-
-    private final PixKey pixKey4 = PixKey.registerNew(pixTypeFactory.newPixType("celular", "+55 11 987654321"),
-                                                        "+55 11 987654321",
-                                                        new AccountType("poupança"),
-                                                        new AgencyNumber(2222),
-                                                        new AccountNumber(2003004),
-                                                        "Ana",
-                                                        "Costa");
-
-    private final PixKey pixKey5 = PixKey.registerNew(pixTypeFactory.newPixType("aleatorio", "a7f3a16b9a3d4f89857a1cf8aef9c23d"),
-            "a7f3a16b9a3d4f89857a1cf8aef9c23d",
-            new AccountType("corrente"),
-            new AgencyNumber(3333),
-            new AccountNumber(3004005),
-            "Pedro",
-            "Moraes");
-
-    private final PixKey pixKey6 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "56923651034"),
-            "56923651034",
-            new AccountType("poupança"),
-            new AgencyNumber(4444),
-            new AccountNumber(4005006),
-            "Juliana",
-            "Silva");
-
     private final PixKey pixKey7 = PixKey.registerNew(pixTypeFactory.newPixType("cnpj", "01244335000118"),
             "01244335000118",
             new AccountType("corrente"),
@@ -162,68 +127,18 @@ public class PixKeyRegistrationTest {
             "Empresa",
             "NovaTech");
 
-    private final PixKey pixKey8 = PixKey.registerNew(pixTypeFactory.newPixType("email", "carla.monteiro@example.com"),
-            "carla.monteiro@example.com",
-            new AccountType("poupança"),
-            new AgencyNumber(6666),
-            new AccountNumber(6007008),
-            "Carla",
-            "Monteiro");
-
-    private final PixKey pixKey9 = PixKey.registerNew(pixTypeFactory.newPixType("celular", "+55 21 998877665"),
-            "+55 21 998877665",
-            new AccountType("corrente"),
-            new AgencyNumber(7777),
-            new AccountNumber(7008009),
-            "Fernando",
-            "Lima");
-
-    private final PixKey pixKey10 = PixKey.registerNew(pixTypeFactory.newPixType("aleatorio", "f9e1bdf2bd2640c39f2df84df32f5b5e"),
-            "f9e1bdf2bd2640c39f2df84df32f5b5e",
-            new AccountType("corrente"),
-            new AgencyNumber(8888),
-            new AccountNumber(8009000),
-            "Beatriz",
-            "Ferreira");
-
-    private final PixKey pixKey11 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "90288348001"),
-            "90288348001",
-            new AccountType("poupança"),
-            new AgencyNumber(9999),
-            new AccountNumber(9000001),
-            "Rodrigo",
-            "Souza");
-
-    private final PixKey pixKey12 = PixKey.registerNew(pixTypeFactory.newPixType("cnpj", "67435654000119"),
-            "67435654000119",
-            new AccountType("corrente"),
-            new AgencyNumber(1212),
-            new AccountNumber(12013002),
-            "Global",
-            "Logística");
-
-    private final List<PixKey> pixKeyList = new ArrayList<>(List.of(pixKey1,
-            pixKey2,
-            pixKey3,
-            pixKey4,
-            pixKey5,
-            pixKey6,
-            pixKey7,
-            pixKey8,
-            pixKey9,
-            pixKey10,
-            pixKey11,
-            pixKey12));
-
     @Test
     void shouldThrowOnDuplicatedPixKeyRegistre() {
         when(findPixKeyGateway.findByPixValue("72356804072")).thenReturn(pixKey1);
 
-        assertThrows(PixRegistreException.class, () -> {
-           useCase.registre(duplicatedPixKey1);
+        PixRegistreException exception = assertThrows(PixRegistreException.class, () -> {
+            useCase.registre(duplicatedPixKey1);
         });
 
+        assertEquals("The value 72356804072 is already associated", exception.getMessage());
+
         verify(findPixKeyGateway, times(1)).findByPixValue("72356804072");
+        verifyNoInteractions(savePixKeyGateway);
     }
 
     @Test
@@ -235,13 +150,17 @@ public class PixKeyRegistrationTest {
                 pixKey1.getAccountNumber().value(), pixKey1.getAgencyNumber().value())).thenReturn(markJhonesPixKeys);
         when(legalTypeFactory.resolve(any())).thenReturn(new CpfLegalType());
 
-        assertThrows(PixRegistreException.class, () -> {
+        PixRegistreException exception = assertThrows(PixRegistreException.class, () -> {
             useCase.registre(pixKey1_6);
         });
+
+        assertEquals("Limit of 5 keys reached for individual account, need to delete an existing key to add more.",
+                exception.getMessage());
 
         verify(findPixKeyGateway, times(1)).findByPixValue(anyString());
         verify(countPixKeys, times(1)).countByAccountNumberAndAgencyNumber(anyInt(), anyInt());
         verify(findPixKeyGateway, times(1)).findAllByAccountNumberAndAgencyNumber(anyInt(), anyInt());
+        verifyNoInteractions(savePixKeyGateway);
     }
 
     @Test
@@ -262,6 +181,7 @@ public class PixKeyRegistrationTest {
         verify(findPixKeyGateway, times(1)).findByPixValue(anyString());
         verify(countPixKeys, times(1)).countByAccountNumberAndAgencyNumber(anyInt(), anyInt());
         verify(findPixKeyGateway, times(1)).findAllByAccountNumberAndAgencyNumber(anyInt(), anyInt());
+        verifyNoInteractions(savePixKeyGateway);
     }
 
     @Test
@@ -276,10 +196,13 @@ public class PixKeyRegistrationTest {
 
         PixKey result = useCase.registre(pixKey2);
 
-        assertDoesNotThrow(() -> result);
-        assertEquals(pixKey2.getId(), result.getId());
-        assertEquals(LocalDateTime.class, result.getCreationDateTime().getClass());
-        assertEquals(LocalDateTime.class, result.getUpdateDateTime().getClass());
+        assertNotNull(result);
+        assertEquals(pixKey2.getValue(), result.getValue());
+        assertEquals(pixKey2.getFirstName(), result.getFirstName());
+        assertTrue(result.isActive());
+
+        assertNotNull(result.getCreationDateTime());
+        assertNotNull(result.getUpdateDateTime());
         assertNull(result.getInactivationDateTime());
 
         verify(findPixKeyGateway, times(1)).findByPixValue(anyString());
@@ -287,4 +210,22 @@ public class PixKeyRegistrationTest {
         verify(findPixKeyGateway, times(1)).findAllByAccountNumberAndAgencyNumber(anyInt(), anyInt());
         verify(savePixKeyGateway, times(1)).save(any(PixKey.class));
     }
+
+    @Test
+    void shouldAccept5thPixKeyForPf() {
+        List<PixKey> keys = new ArrayList<>(markJhonesPixKeys.subList(0, 4));
+        when(findPixKeyGateway.findByPixValue(anyString())).thenReturn(null);
+        when(countPixKeys.countByAccountNumberAndAgencyNumber(anyInt(), anyInt())).thenReturn(4);
+        when(findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(anyInt(), anyInt())).thenReturn(keys);
+        when(savePixKeyGateway.save(any(PixKey.class))).thenReturn(pixKey1_5);
+        when(legalTypeFactory.resolve(any())).thenReturn(new CpfLegalType());
+
+        PixKey result = useCase.registre(pixKey1_5);
+
+        assertNotNull(result);
+        assertEquals(pixKey1_5.getValue(), result.getValue());
+
+        verify(savePixKeyGateway, times(1)).save(any(PixKey.class));
+    }
+
 }
