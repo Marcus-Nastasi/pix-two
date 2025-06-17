@@ -41,6 +41,9 @@ public class PixKey {
 
     private LocalDateTime inactivationDateTime;
 
+    /**
+     * Method responsible to generate a new instance of {@link PixKey}
+     */
     public static PixKey registerNew(PixType type,
                                      String value,
                                      AccountType accountType,
@@ -66,6 +69,10 @@ public class PixKey {
                         null);
     }
 
+    /**
+     * Method responsible to update safely the pix key.
+     * @return the {@link PixKey} updated.
+     */
     public PixKey update(AccountType accountType,
                          AgencyNumber agency,
                          AccountNumber accountNumber,
@@ -88,6 +95,9 @@ public class PixKey {
         return this;
     }
 
+    /**
+     * Method responsible to inactivate the pix key.
+     */
     public void inactivate() {
         if (!active) throw new PixKeyException("Already inactivated");
         LocalDateTime now = LocalDateTime.now();
