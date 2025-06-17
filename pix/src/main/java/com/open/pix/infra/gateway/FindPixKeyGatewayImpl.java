@@ -24,7 +24,7 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     @Override
     public List<PixKey> findAll(int page, int size) {
-        return repository.findAll(PageRequest.of(page, size, Sort.by("creationDateTime").ascending()))
+        return repository.findAllByActiveTrue(PageRequest.of(page, size, Sort.by("creationDateTime").ascending()))
                 .stream()
                 .map(pixKeyEntityMapper::toDomain)
                 .toList();

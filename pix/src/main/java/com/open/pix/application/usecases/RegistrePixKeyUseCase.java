@@ -41,10 +41,13 @@ public class RegistrePixKeyUseCase {
     }
 
     private void checkExistingKey(PixKey pixKey) {
-        PixKey existingPixKey = findPixKeyGateway.findByPixValue(pixKey.getValue());
-        if (existingPixKey != null) {
-            throw new PixRegistreException("The value " + pixKey.getValue() + " is already associated");
-        }
+        Optional.ofNullable(findPixKeyGateway.findByPixValue(pixKey.getValue()))
+            .ifPresentOrElse(
+                v -> {
+                    throw new PixRegistreException("The value " + pixKey.getValue() + " is already associated");
+                },
+                () -> {}
+            );
     }
 
     private void checkLegalType(PixKey pixKey) {
