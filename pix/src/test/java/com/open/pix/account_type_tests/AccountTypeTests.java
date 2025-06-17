@@ -41,10 +41,4 @@ public class AccountTypeTests {
         AccountType t2 = new AccountType("POUPANÇA");
         assertEquals("poupança", t2.type());
     }
-
-    @Test
-    void staticFactoriesMustReturnCorrectValues() {
-        assertEquals("corrente", AccountType.current().type());
-        assertEquals("poupança", AccountType.savings().type());
-    }
 }

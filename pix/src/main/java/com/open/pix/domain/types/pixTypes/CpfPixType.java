@@ -49,7 +49,15 @@ public class CpfPixType implements PixType {
     }
 
     /**
-     * Calculate if CPF is valid with module 11 algorithm
+     * Validates a CPF number using the modulus 11 algorithm.
+     *
+     * <p>The CPF must be composed of 11 digits. This method first checks whether the input
+     * is a sequence of identical digits (which is invalid), then calculates the two
+     * verifying digits using the standard modulus 11 algorithm. If both calculated digits
+     * match the last two digits of the input, the CPF is considered valid.</p>
+     *
+     * @param cpf the CPF number as a numeric string (only digits)
+     * @return true if the CPF is valid, false otherwise
      */
     private static boolean isValidCpf(String cpf) {
         // reject equal digit sequence

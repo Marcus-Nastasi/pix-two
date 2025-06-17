@@ -20,9 +20,9 @@ public class PixKeyRequestMapper {
         return PixKey.builder()
                 .pixType(pixTypeFactory.newPixType(pixKey.pixType(), pixKey.value()))
                 .value(pixKey.value())
-                .accountType(new AccountType(pixKey.accountType()))
-                .agencyNumber(new AgencyNumber(pixKey.agencyNumber()))
-                .accountNumber(new AccountNumber(pixKey.accountNumber()))
+                .accountType(AccountType.of(pixKey.accountType()))
+                .agencyNumber(AgencyNumber.of(pixKey.agencyNumber()))
+                .accountNumber(AccountNumber.of(pixKey.accountNumber()))
                 .firstName(pixKey.firstName())
                 .lastName(pixKey.lastName())
                 .build();
@@ -31,9 +31,9 @@ public class PixKeyRequestMapper {
     public static PixKey fromUpdate(PixKeyUpdateRequest pixKey) {
         return PixKey.builder()
                 .id(pixKey.id())
-                .accountType(new AccountType(pixKey.accountType()))
-                .agencyNumber(new AgencyNumber(pixKey.agencyNumber()))
-                .accountNumber(new AccountNumber(pixKey.accountNumber()))
+                .accountType(AccountType.of(pixKey.accountType()))
+                .agencyNumber(AgencyNumber.of(pixKey.agencyNumber()))
+                .accountNumber(AccountNumber.of(pixKey.accountNumber()))
                 .firstName(pixKey.firstName())
                 .lastName(pixKey.lastName())
                 .build();

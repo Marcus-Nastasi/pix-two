@@ -8,7 +8,7 @@ public final class CnpjLegalType implements LegalType {
 
     @Override
     public boolean supports(String pixType) {
-        return "cnpj".equalsIgnoreCase(pixType);
+        return value().equalsIgnoreCase(pixType);
     }
 
     @Override

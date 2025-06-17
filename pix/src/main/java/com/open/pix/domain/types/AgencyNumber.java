@@ -12,4 +12,8 @@ public record AgencyNumber(Integer value) {
             throw new AgencyNumberException("Agency number must have less or equal than 4 digits");
         }
     }
+
+    public static AgencyNumber of(Integer value) {
+        return new AgencyNumber(value);
+    }
 }

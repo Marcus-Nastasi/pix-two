@@ -8,7 +8,7 @@ public final class CpfLegalType implements LegalType {
 
     @Override
     public boolean supports(String pixType) {
-        return "cpf".equalsIgnoreCase(pixType);
+        return value().equalsIgnoreCase(pixType);
     }
 
     @Override

@@ -12,4 +12,8 @@ public record AccountNumber(Integer value) {
             throw new AccountNumberException("Account number must have less or equal than 8 digits");
         }
     }
+
+    public static AccountNumber of(Integer value) {
+        return new AccountNumber(value);
+    }
 }

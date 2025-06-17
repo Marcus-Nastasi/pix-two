@@ -13,15 +13,6 @@ public record AccountType(String type) {
         type = type.trim().toLowerCase();
     }
 
-    /** Factory methods*/
-    public static AccountType current() {
-        return new AccountType("corrente");
-    }
-
-    public static AccountType savings() {
-        return new AccountType("poupança");
-    }
-
     private void validate(String value) {
         if (value == null || value.isEmpty() || value.isBlank()) {
             throw new AccountTypeException("Account type must not be empty");
@@ -33,5 +24,9 @@ public record AccountType(String type) {
         if (!ALLOWED.contains(normalized)) {
             throw new AccountTypeException("Invalid account type: " + type + ". Permitted values: " + ALLOWED);
         }
+    }
+
+    public static AccountType of(String type) {
+        return new AccountType(type);
     }
 }

@@ -51,6 +51,16 @@ public final class CnpjPixType implements PixType {
         return s != null && DIGITS.matcher(s).matches();
     }
 
+    /**
+     * Validates a CNPJ number based on check digit calculation.
+     *
+     * <p>The CNPJ must be 14 digits long and cannot be composed of identical digits.
+     * The validation follows the official modulus 11 algorithm to calculate the check digits
+     * and compares them with the provided ones.</p>
+     *
+     * @param cnpj the CNPJ number as a numeric string (only digits)
+     * @return true if the CNPJ is valid, false otherwise
+     */
     private static boolean isValidCnpj(String cnpj) {
         if (cnpj.length() != 14 || cnpj.chars().distinct().count() == 1) {
             return false;
@@ -72,6 +82,17 @@ public final class CnpjPixType implements PixType {
                 .equals(cnpj);
     }
 
+    /**
+     * Applies the modulus 11 algorithm to a list of digits using a given set of weights.
+     *
+     * <p>Each digit is multiplied by its corresponding weight, the results are summed,
+     * and the remainder of the division by 11 is used to determine the check digit
+     * according to the standard rule.</p>
+     *
+     * @param digits the list of numeric digits to validate
+     * @param weights the weight factors to apply in the calculation, matching the digit positions
+     * @return the calculated check digit
+     */
     private static int mod11(List<Integer> digits, int[] weights) {
         int sum = 0;
         for (int i = 0; i < weights.length; i++) {
