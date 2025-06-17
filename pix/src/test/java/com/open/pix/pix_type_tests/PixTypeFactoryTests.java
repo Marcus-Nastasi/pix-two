@@ -5,14 +5,18 @@ import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.factory.PixTypeFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import java.util.Map;
+
 public class PixTypeFactoryTests {
 
-    @Autowired
-    private PixTypeFactory pixTypeFactory;
+    private final PixTypeFactory pixTypeFactory = new PixTypeFactory(Map.of(
+            "cpf", CpfPixType::new,
+            "cnpj", CnpjPixType::new,
+            "email", EmailPixType::new,
+            "celular", PhonePixType::new,
+            "aleatorio", RandomPixType::new
+    ));
 
     @Test
     void mustCreateCpfPixType() {

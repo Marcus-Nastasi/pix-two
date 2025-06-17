@@ -2,6 +2,7 @@ package com.open.pix;
 
 import com.open.pix.adapters.input.PixKeyUpdateRequest;
 import com.open.pix.adapters.mappers.PixKeyRequestMapper;
+import com.open.pix.application.exceptions.NotFoundException;
 import com.open.pix.application.gateway.FindPixKeyGateway;
 import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.application.usecases.UpdatePixKeyUseCase;
@@ -71,11 +72,17 @@ public class PixKeyUpdateTests {
         pixKey1.setId(UUID.randomUUID());
         pixKey1.inactivate();
 
-        Mockito.when(findPixKeyGateway.findById(Mockito.any(UUID.class))).thenReturn(pixKey1);
+        Mockito.when(findPixKeyGateway.findById(Mockito.any(UUID.class)))
+                .thenReturn(pixKey1);
 
-        Assertions.assertThrows(PixKeyException.class, () -> {
+        PixKeyException exception = Assertions.assertThrows(PixKeyException.class, () -> {
             useCase.update(pixKey1);
         });
+
+        Assertions.assertEquals("It's not allowed to update inactive keys", exception.getMessage());
+
+        Mockito.verify(findPixKeyGateway, Mockito.times(1)).findById(Mockito.any(UUID.class));
+        Mockito.verifyNoInteractions(savePixKeyGateway);
     }
 
     @Test
@@ -86,13 +93,51 @@ public class PixKeyUpdateTests {
         Mockito.when(findPixKeyGateway.findById(uuid)).thenReturn(pixKey1);
         Mockito.when(savePixKeyGateway.save(Mockito.any(PixKey.class))).thenReturn(pixKeyUpdated);
 
-        PixKey pixKey = useCase.update(PixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
+        PixKey updatedKey = useCase.update(PixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
 
-        Assertions.assertDoesNotThrow(() -> pixKey);
-        Assertions.assertEquals(uuid, pixKey.getId());
-        Assertions.assertEquals(pixKeyUpdateRequest.firstName(), pixKey.getFirstName());
+        Assertions.assertNotNull(updatedKey);
+        Assertions.assertEquals(uuid, updatedKey.getId());
+        Assertions.assertEquals("Marcus", updatedKey.getFirstName());
+        Assertions.assertEquals("Rol", updatedKey.getLastName());
+        Assertions.assertEquals(1234, updatedKey.getAgencyNumber().value());
+        Assertions.assertEquals(12345678, updatedKey.getAccountNumber().value());
+        Assertions.assertEquals("corrente", updatedKey.getAccountType().type());
+        Assertions.assertEquals("72356804072", updatedKey.getValue());
+        Assertions.assertTrue(updatedKey.isActive());
 
-        Mockito.verify(findPixKeyGateway, Mockito.times(1)).findById(Mockito.any(UUID.class));
+        Mockito.verify(findPixKeyGateway, Mockito.times(1)).findById(uuid);
         Mockito.verify(savePixKeyGateway, Mockito.times(1)).save(Mockito.any(PixKey.class));
+    }
+
+    @Test
+    void shouldThrowIfKeyNotFound() {
+        Mockito.when(findPixKeyGateway.findById(uuid)).thenReturn(null);
+
+        NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
+            useCase.update(PixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
+        });
+
+        Assertions.assertEquals("Pix key not found", exception.getMessage());
+        Mockito.verify(findPixKeyGateway, Mockito.times(1)).findById(uuid);
+        Mockito.verifyNoInteractions(savePixKeyGateway);
+    }
+
+    @Test
+    void shouldNotUpdateWhenDataIsSame() {
+        pixKey1.setId(uuid);
+
+        PixKeyUpdateRequest sameDataRequest = new PixKeyUpdateRequest(uuid,
+                "corrente", 1234, 1234567, "Mark", "Jhones");
+
+        Mockito.when(findPixKeyGateway.findById(uuid)).thenReturn(pixKey1);
+        Mockito.when(savePixKeyGateway.save(Mockito.any(PixKey.class))).thenAnswer(i -> i.getArgument(0));
+
+        PixKey result = useCase.update(PixKeyRequestMapper.fromUpdate(sameDataRequest));
+
+        Assertions.assertEquals(pixKey1.getFirstName(), result.getFirstName());
+        Assertions.assertEquals(pixKey1.getAccountNumber(), result.getAccountNumber());
+
+        Mockito.verify(findPixKeyGateway, Mockito.times(1)).findById(uuid);
+        Mockito.verify(savePixKeyGateway).save(Mockito.any(PixKey.class));
     }
 }
