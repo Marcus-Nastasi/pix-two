@@ -73,44 +73,46 @@ Metodologia **12-Factor**:
     http://localhost:8080/api/pix
 
 ### Rotas de API:
-A aplicação disponibiliza as seguintes rotas para requisição:
+- A aplicação disponibiliza as seguintes rotas para requisição:
+   ```bash
+   # buscar todas as ocorrências de chave pix (paginado):
+   GET: http://localhost:8080/api/pix?page=0&size=10
+   
+   # buscar chave pix por ID (UUID):
+   GET: http://localhost:8080/api/pix/{id}
+   
+   # buscar chaves pix com filtros especiais:
+   GET: http://localhost:8080/api/pix?page=0&size=10&keyType=cpf&agencyNumber=1234&accountNumber=12345678&name=mark&creationDate=2025-06-15T12:49:55.737393&inactivationDate=2025-06-15T16:17:51.528222
+   
+   # registrar chave pix:
+   POST: http://localhost:8080/api/pix
+   
+   # exemplo de objeto de registro:
+   #{
+   #  "pixType": "celular",
+   #  "value": "+21 33 123456789",
+   #  "accountType": "poupança",
+   #  "agencyNumber": 4355,
+   #  "accountNumber": 72398,
+   #  "firstName": "Label",
+   #  "lastName": "Junes"
+   #}
+   
+   # atualizar uma chave pix:
+   PATCH: http://localhost:8080/api/pix
+   
+   # exemplo de objeto de atualização:
+   #{
+   #  "id": "066242df-e544-4106-be6b-221e4199a550",
+   #  "accountType": "poupança",
+   #  "agencyNumber": 4355,
+   #  "accountNumber": 72398,
+   #  "firstName": "Label Jhon",
+   #  "lastName": "Junes"
+   #}
+   
+   # inativar uma chave pix por ID (UUID):
+   DELETE: http://localhost:8080/api/pix/{id}
 
-```bash
-# buscar todas as ocorrências de chave pix (paginado):
-GET: http://localhost:8080/api/pix?page=0&size=10
-
-# buscar chave pix por ID (UUID):
-GET: http://localhost:8080/api/pix/{id}
-
-# buscar chaves pix com filtros especiais:
-GET: http://localhost:8080/api/pix?page=0&size=10&keyType=cpf&agencyNumber=1234&accountNumber=12345678&name=mark&creationDate=2025-06-15T12:49:55.737393&inactivationDate=2025-06-15T16:17:51.528222
-
-# registrar chave pix:
-POST: http://localhost:8080/api/pix
-
-# exemplo de objeto de registro:
-#{
-#  "pixType": "celular",
-#  "value": "+21 33 123456789",
-#  "accountType": "poupança",
-#  "agencyNumber": 4355,
-#  "accountNumber": 72398,
-#  "firstName": "Label",
-#  "lastName": "Junes"
-#}
-
-# atualizar uma chave pix:
-PATCH: http://localhost:8080/api/pix
-
-# exemplo de objeto de atualização:
-#{
-#  "id": "066242df-e544-4106-be6b-221e4199a550",
-#  "accountType": "poupança",
-#  "agencyNumber": 4355,
-#  "accountNumber": 72398,
-#  "firstName": "Label Jhon",
-#  "lastName": "Junes"
-#}
-
-# inativar uma chave pix por ID (UUID):
-DELETE: http://localhost:8080/api/pix/{id}
+- Veja mais exemplos de requisições na documentação da API
+   com Open API, na rota http://localhost:8080/swagger-ui/index.html
