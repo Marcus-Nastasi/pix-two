@@ -6,27 +6,30 @@ import com.open.pix.domain.interfaces.PixType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PhonePixTypeTests {
+public final class PhonePixTypeTests {
 
     @Test
     void mustThrowOnPhoneWithMoreThan17Chars() {
-        Assertions.assertThrows(PixTypeException.class, () -> {
+        PixTypeException exception = Assertions.assertThrows(PixTypeException.class, () -> {
             new PhonePixType("+12 345 67890123456789");
         });
+        Assertions.assertEquals("Phone exceed max length of 17", exception.getMessage());
     }
 
     @Test
     void mustThrowOnPhoneWithoutInitialPlus() {
-        Assertions.assertThrows(PixTypeException.class, () -> {
+        PixTypeException exception = Assertions.assertThrows(PixTypeException.class, () -> {
             new PhonePixType("12 345 789012345");
         });
+        Assertions.assertEquals("Phone must initialize with '+' followed by country code", exception.getMessage());
     }
 
     @Test
     void mustThrowOnPhoneWithLetters() {
-        Assertions.assertThrows(PixTypeException.class, () -> {
+        PixTypeException exception = Assertions.assertThrows(PixTypeException.class, () -> {
             new PhonePixType("+12 345 67890123I");
         });
+        Assertions.assertEquals("Number must have just numeric digits", exception.getMessage());
     }
 
     @Test
@@ -34,6 +37,8 @@ public class PhonePixTypeTests {
         Assertions.assertThrows(PixTypeException.class, () -> {
             new PhonePixType("+1A 345 678901236");
         });
+        PhonePixType pix = Assertions.assertDoesNotThrow(() -> new PhonePixType("+55 11 912345678"));
+        Assertions.assertEquals("+55 11 912345678", pix.value());
     }
 
     @Test
@@ -41,6 +46,8 @@ public class PhonePixTypeTests {
         Assertions.assertThrows(PixTypeException.class, () -> {
             new PhonePixType("+123 45 678901236");
         });
+        PixType pix = new PhonePixType("  +55 11 912345678  ");
+        Assertions.assertEquals("+55 11 912345678", pix.value());
     }
 
     @Test
@@ -48,6 +55,9 @@ public class PhonePixTypeTests {
         Assertions.assertThrows(PixTypeException.class, () -> {
             new PhonePixType("+ 45 678901236");
         });
+        String phone = "+12 345 123456789";
+        PixType pix = Assertions.assertDoesNotThrow(() -> new PhonePixType(phone));
+        Assertions.assertEquals(phone, pix.value());
     }
 
     @Test
