@@ -10,8 +10,8 @@ import com.open.pix.domain.factory.LegalTypeFactory;
 import com.open.pix.domain.factory.PixTypeFactory;
 import com.open.pix.domain.types.*;
 
-import com.open.pix.domain.types.legalTypes.CnpjLegalType;
-import com.open.pix.domain.types.legalTypes.CpfLegalType;
+import com.open.pix.domain.types.legalTypes.PjLegalType;
+import com.open.pix.domain.types.legalTypes.PfLegalType;
 import com.open.pix.domain.types.pixTypes.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -150,7 +150,7 @@ public final class PixKeyRegistrationTest {
                 pixKey1.getAccountNumber().value(), pixKey1.getAgencyNumber().value())).thenReturn(markJhonesPixKeys.size());
         when(findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(
                 pixKey1.getAccountNumber().value(), pixKey1.getAgencyNumber().value())).thenReturn(markJhonesPixKeys);
-        when(legalTypeFactory.resolve(any())).thenReturn(new CpfLegalType());
+        when(legalTypeFactory.resolve(any())).thenReturn(new PfLegalType());
 
         PixRegistreException exception = assertThrows(PixRegistreException.class, () -> {
             useCase.registre(pixKey1_6);
@@ -172,7 +172,7 @@ public final class PixKeyRegistrationTest {
                 pixKey7.getAccountNumber().value(), pixKey7.getAgencyNumber().value())).thenReturn(20);
         when(findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(
                 pixKey7.getAccountNumber().value(), pixKey7.getAgencyNumber().value())).thenReturn(List.of(pixKey7));
-        when(legalTypeFactory.resolve(any())).thenReturn(new CnpjLegalType());
+        when(legalTypeFactory.resolve(any())).thenReturn(new PjLegalType());
 
         PixRegistreException exception = assertThrows(PixRegistreException.class, () -> {
             useCase.registre(pixKey7);
@@ -194,7 +194,7 @@ public final class PixKeyRegistrationTest {
         when(findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(
                 pixKey2.getAccountNumber().value(), pixKey2.getAgencyNumber().value())).thenReturn(List.of(pixKey7));
         when(savePixKeyGateway.save(any(PixKey.class))).thenReturn(pixKey2);
-        when(legalTypeFactory.resolve(any())).thenReturn(new CnpjLegalType());
+        when(legalTypeFactory.resolve(any())).thenReturn(new PjLegalType());
 
         PixKey result = useCase.registre(pixKey2);
 
@@ -220,7 +220,7 @@ public final class PixKeyRegistrationTest {
         when(countPixKeys.countByAccountNumberAndAgencyNumber(anyInt(), anyInt())).thenReturn(4);
         when(findPixKeyGateway.findAllByAccountNumberAndAgencyNumber(anyInt(), anyInt())).thenReturn(keys);
         when(savePixKeyGateway.save(any(PixKey.class))).thenReturn(pixKey1_5);
-        when(legalTypeFactory.resolve(any())).thenReturn(new CpfLegalType());
+        when(legalTypeFactory.resolve(any())).thenReturn(new PfLegalType());
 
         PixKey result = useCase.registre(pixKey1_5);
 

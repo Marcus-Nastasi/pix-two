@@ -4,7 +4,7 @@ import com.open.pix.domain.interfaces.LegalType;
 
 import java.util.List;
 
-public final class CpfLegalType implements LegalType {
+public final class PjLegalType implements LegalType {
 
     @Override
     public boolean supports(String pixType) {
@@ -18,27 +18,27 @@ public final class CpfLegalType implements LegalType {
 
     @Override
     public LegalType resolve() {
-        return new CpfLegalType();
+        return new PjLegalType();
     }
 
     @Override
     public int limit() {
-        return 5;
+        return 20;
     }
 
     @Override
     public String getLimitErrorMessage() {
-        return "Limit of 5 keys reached for individual account, " +
-                "need to delete an existing key to add more.";
+        return "Limit of 20 keys reached for legal entity account," +
+                " need to delete an existing key to add more.";
     }
 
     @Override
     public String getBlockErrorMessage() {
-        return "Your account is type PF, cannot registre a CNPJ as pix key";
+        return "Your account is type PJ, cannot registre a CPF as pix key";
     }
 
     @Override
     public List<String> blocks() {
-        return List.of("cnpj");
+        return List.of("cpf");
     }
 }
