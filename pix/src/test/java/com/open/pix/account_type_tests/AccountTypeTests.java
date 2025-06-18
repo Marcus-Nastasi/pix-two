@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AccountTypeTests {
+public final class AccountTypeTests {
 
     @Test
     void mustThrowOnAccountTypeNull() {
@@ -40,5 +40,19 @@ public class AccountTypeTests {
 
         AccountType t2 = new AccountType("POUPANÇA");
         assertEquals("poupança", t2.type());
+    }
+
+    @Test
+    void mustThrowOnBlankString() {
+        AccountTypeException ex = assertThrows(AccountTypeException.class, () -> {
+            new AccountType("   ");
+        });
+        assertEquals("Account type must not be empty", ex.getMessage());
+    }
+
+    @Test
+    void mustAcceptExactValidLowercase() {
+        AccountType t = new AccountType("corrente");
+        assertEquals("corrente", t.type());
     }
 }
