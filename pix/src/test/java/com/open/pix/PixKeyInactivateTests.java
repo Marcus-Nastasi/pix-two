@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @ExtendWith(MockitoExtension.class)
-public class PixKeyInactivateTests {
+public final class PixKeyInactivateTests {
 
     @Spy
     @InjectMocks
