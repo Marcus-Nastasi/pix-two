@@ -84,7 +84,7 @@ Metodologia **12-Factor**:
    GET: http://localhost:8080/api/pix/{id}
    
    # buscar chaves pix com filtros especiais:
-   GET: http://localhost:8080/api/pix?page=0&size=10&keyType=cpf&agencyNumber=1234&accountNumber=12345678&name=mark&creationDate=2025-06-15T12:49:55.737393&inactivationDate=2025-06-15T16:17:51.528222
+   GET: http://localhost:8080/api/pix/search?page=0&size=10&keyType=cpf&agencyNumber=1234&accountNumber=12345678&name=mark&creationDate=2025-06-15T12:49:55.737393&inactivationDate=2025-06-15T16:17:51.528222
    
    # registrar chave pix:
    POST: http://localhost:8080/api/pix
