@@ -1,5 +1,6 @@
 package com.open.pix.application.usecases;
 
+import com.open.pix.application.exceptions.NotFoundException;
 import com.open.pix.application.gateway.SearchPixKeyGateway;
 import com.open.pix.domain.PixKey;
 
@@ -34,6 +35,11 @@ public class SearchPixKeysUseCase {
                                LocalDateTime inactivationDate,
                                int page,
                                int size) {
-        return searchPixKeyGateway.search(keyType, agency, account, holderName, inclusionDate, inactivationDate, page, size);
+        List<PixKey> pixKeys = searchPixKeyGateway.search(keyType,
+                agency, account, holderName, inclusionDate, inactivationDate, page, size);
+        if (pixKeys.isEmpty()) {
+            throw new NotFoundException("Pix keys not found for this filters");
+        }
+        return pixKeys;
     }
 }
