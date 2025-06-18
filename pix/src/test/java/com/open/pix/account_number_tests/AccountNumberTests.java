@@ -35,4 +35,32 @@ public final class AccountNumberTests {
         AccountNumber acc = new AccountNumber(123);
         assertEquals(123, acc.value());
     }
+
+    @Test
+    void mustThrowWhenAccountNumberGreaterThanEightWithOf() {
+        AccountNumberException exception = assertThrows(AccountNumberException.class, () -> {
+            AccountNumber.of(123456789);
+        });
+        assertEquals("Account number must have less or equal than 8 digits", exception.getMessage());
+    }
+
+    @Test
+    void mustThrowOnAccountNumberNullWithOf() {
+        AccountNumberException exception = assertThrows(AccountNumberException.class, () -> {
+            AccountNumber.of(null);
+        });
+        assertEquals("Account number must be informed", exception.getMessage());
+    }
+
+    @Test
+    void mustAcceptValidEightDigitAccountNumberWithOf() {
+        AccountNumber acc = AccountNumber.of(87654321);
+        assertEquals(87654321, acc.value());
+    }
+
+    @Test
+    void mustAcceptValidShortAccountNumberWithOf() {
+        AccountNumber acc = AccountNumber.of(123);
+        assertEquals(123, acc.value());
+    }
 }

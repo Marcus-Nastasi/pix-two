@@ -55,4 +55,52 @@ public final class AccountTypeTests {
         AccountType t = new AccountType("corrente");
         assertEquals("corrente", t.type());
     }
+
+    @Test
+    void mustThrowOnAccountTypeNullWithOf() {
+        AccountTypeException ex = assertThrows(AccountTypeException.class, () -> {
+            AccountType.of(null);
+        });
+        assertEquals("Account type must not be empty", ex.getMessage());
+    }
+
+    @Test
+    void mustThrowOnAccountTypeLengthMoreThanTenWithOf() {
+        AccountTypeException ex = assertThrows(AccountTypeException.class, () -> {
+            AccountType.of("correntecorrente"); // 16 chars
+        });
+        assertEquals("Account type must not exceed 10 characters", ex.getMessage());
+    }
+
+    @Test
+    void mustThrowOnAccountTypeInvalidValueWithOf() {
+        AccountTypeException ex = assertThrows(AccountTypeException.class, () -> {
+            AccountType.of("investimen");
+        });
+        assertTrue(ex.getMessage().startsWith("Invalid account type: "));
+        assertTrue(ex.getMessage().contains("Permitted values:"));
+    }
+
+    @Test
+    void mustNormalizeAndAcceptValidTypesCaseInsensitiveWithOf() {
+        AccountType t1 = AccountType.of(" CoRrEnTe ");
+        assertEquals("corrente", t1.type());
+
+        AccountType t2 = AccountType.of("POUPANÇA");
+        assertEquals("poupança", t2.type());
+    }
+
+    @Test
+    void mustThrowOnBlankStringWithOf() {
+        AccountTypeException ex = assertThrows(AccountTypeException.class, () -> {
+            AccountType.of("   ");
+        });
+        assertEquals("Account type must not be empty", ex.getMessage());
+    }
+
+    @Test
+    void mustAcceptExactValidLowercaseWithOf() {
+        AccountType t = AccountType.of("corrente");
+        assertEquals("corrente", t.type());
+    }
 }

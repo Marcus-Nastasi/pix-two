@@ -26,7 +26,7 @@ O projeto foi elaborado seguindo os princípios de **Arquitetura Limpa (Uncle Bo
 Metodologia **12-Factor**:
 - **Ambientes**: Ambiente controlado pelo docker e docker compose, garantindo igualdade de ambientes de execução.
 - **Versionamento**: Uso de Git e GitHub para versionamento. 
-- **Testes**: **75 testes** unitários garantindo o devido funcionamento das regras de negócio da aplicação.
+- **Testes**: **89 testes** unitários garantindo o devido funcionamento das regras de negócio da aplicação.
 - **Isolamento**: Separação de responsabilidades em camadas da aplicação.
 
 ## Como executar:

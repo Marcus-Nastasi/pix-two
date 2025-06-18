@@ -82,7 +82,7 @@ public class RegistrePixKeyUseCase {
             () -> {
                 if (count == defaultLimit) {
                     throw new PixRegistreException("You're on default pix keys limit of 5, if you want to" +
-                            "add more pix keys, inactivate one of yours, or contact your agency");
+                            "add more pix keys, inactivate one of yours or contact your agency");
                 }
             }
         );
