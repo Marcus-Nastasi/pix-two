@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class AgencyNumberTests {
+public final class AgencyNumberTests {
 
     @Test
     void mustThrowWhenAccountNumberGreaterThanFour() {
@@ -23,5 +23,17 @@ public class AgencyNumberTests {
             new AgencyNumber(null);
         });
         assertEquals("Account number must be informed", exception.getMessage());
+    }
+
+    @Test
+    void mustAcceptValidFourDigitAgencyNumber() {
+        AgencyNumber agency = new AgencyNumber(1234);
+        assertEquals(1234, agency.value());
+    }
+
+    @Test
+    void mustAcceptValidOneDigitAgencyNumber() {
+        AgencyNumber agency = new AgencyNumber(7);
+        assertEquals(7, agency.value());
     }
 }
