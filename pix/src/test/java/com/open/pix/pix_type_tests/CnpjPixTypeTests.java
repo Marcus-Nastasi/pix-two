@@ -1,5 +1,6 @@
 package com.open.pix.pix_type_tests;
 
+import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.types.pixTypes.CnpjPixType;
 import com.open.pix.domain.exceptions.PixTypeException;
 import com.open.pix.domain.interfaces.PixType;
@@ -10,7 +11,7 @@ public final class CnpjPixTypeTests {
 
     @Test
     void mustThrowOnCnpjWithLessThan14Numbers() {
-        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
+        PixKeyException ex = Assertions.assertThrows(PixKeyException.class, () -> {
             new CnpjPixType("123");
         });
         Assertions.assertEquals("The CNPJ have more digits than 14", ex.getMessage());
@@ -18,7 +19,7 @@ public final class CnpjPixTypeTests {
 
     @Test
     void mustThrowOnCnpjWithMoreThan14Numbers() {
-        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
+        PixKeyException ex = Assertions.assertThrows(PixKeyException.class, () -> {
             new CnpjPixType("12345678901234567");
         });
         Assertions.assertEquals("The CNPJ have more digits than 14", ex.getMessage());
@@ -26,7 +27,7 @@ public final class CnpjPixTypeTests {
 
     @Test
     void mustThrowOnCnpjWithNonNumeric() {
-        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
+        PixKeyException ex = Assertions.assertThrows(PixKeyException.class, () -> {
             new CnpjPixType("1234567890123G");
         });
         Assertions.assertEquals("The CNPJ must have exact 14 numeric numbers", ex.getMessage());
@@ -34,7 +35,7 @@ public final class CnpjPixTypeTests {
 
     @Test
     void mustThrowOnInvalidCnpj() {
-        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
+        PixKeyException ex = Assertions.assertThrows(PixKeyException.class, () -> {
             new CnpjPixType("43192371287391");
 
         });

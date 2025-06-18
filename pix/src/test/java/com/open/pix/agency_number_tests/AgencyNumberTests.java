@@ -14,7 +14,7 @@ public final class AgencyNumberTests {
         AgencyNumberException exception = assertThrows(AgencyNumberException.class, () -> {
             new AgencyNumber(123456789);
         });
-        assertEquals("Agency number must have less or equal than 4 digits", exception.getMessage());
+        assertEquals("Agency number must equals or have less than 4 digits", exception.getMessage());
     }
 
     @Test
@@ -22,7 +22,7 @@ public final class AgencyNumberTests {
         AgencyNumberException exception = assertThrows(AgencyNumberException.class, () -> {
             new AgencyNumber(null);
         });
-        assertEquals("Account number must be informed", exception.getMessage());
+        assertEquals("Agency number must be informed", exception.getMessage());
     }
 
     @Test
@@ -42,7 +42,7 @@ public final class AgencyNumberTests {
         AgencyNumberException exception = assertThrows(AgencyNumberException.class, () -> {
             AgencyNumber.of(123456789);
         });
-        assertEquals("Agency number must have less or equal than 4 digits", exception.getMessage());
+        assertEquals("Agency number must equals or have less than 4 digits", exception.getMessage());
     }
 
     @Test
@@ -50,7 +50,7 @@ public final class AgencyNumberTests {
         AgencyNumberException exception = assertThrows(AgencyNumberException.class, () -> {
             AgencyNumber.of(null);
         });
-        assertEquals("Account number must be informed", exception.getMessage());
+        assertEquals("Agency number must be informed", exception.getMessage());
     }
 
     @Test

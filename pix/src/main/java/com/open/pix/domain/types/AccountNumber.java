@@ -6,7 +6,7 @@ public record AccountNumber(Integer value) {
 
     public AccountNumber {
         if (value == null) {
-            throw new AccountNumberException("Account number must be informed");
+            throw new AccountNumberException("Account number must not be empty");
         }
         if (value > 99999999) {
             throw new AccountNumberException("Account number must have less or equal than 8 digits");

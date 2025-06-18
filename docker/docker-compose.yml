@@ -33,6 +33,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+      SPRING_PROFILES_ACTIVE: docker
       SPRING_REDIS_HOST: redis-pix
       SPRING_REDIS_PORT: 6379
       SPRING_CACHE_REDIS_TIME_TO_LIVE: 12h

@@ -1,6 +1,6 @@
 package com.open.pix.domain.types.pixTypes;
 
-import com.open.pix.domain.exceptions.PixTypeException;
+import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.interfaces.PixType;
 
 import java.util.ArrayList;
@@ -15,8 +15,12 @@ public final class CnpjPixType implements PixType {
     private final String value;
 
     public CnpjPixType(String value) {
-        validate(value);
-        this.value = value;
+        if (value == null || value.isBlank()) {
+            throw new PixKeyException("Cnpj must not be empty");
+        }
+        String trimmed = value.trim();
+        validate(trimmed);
+        this.value = trimmed;
     }
 
     @Override
@@ -32,13 +36,13 @@ public final class CnpjPixType implements PixType {
     @Override
     public void validate(String value) {
         if (value.length() != maxLength()) {
-            throw new PixTypeException("The CNPJ have more digits than " + maxLength());
+            throw new PixKeyException("The CNPJ have more digits than " + maxLength());
         }
         if (!isNumeric(value)) {
-            throw new PixTypeException("The CNPJ must have exact " + maxLength() + " numeric numbers");
+            throw new PixKeyException("The CNPJ must have exact " + maxLength() + " numeric numbers");
         }
         if (!isValidCnpj(value)) {
-            throw new PixTypeException("The CNPJ isn't valid");
+            throw new PixKeyException("The CNPJ isn't valid");
         }
     }
 

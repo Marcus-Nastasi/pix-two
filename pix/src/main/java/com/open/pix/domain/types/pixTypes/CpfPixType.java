@@ -1,6 +1,6 @@
 package com.open.pix.domain.types.pixTypes;
 
-import com.open.pix.domain.exceptions.PixTypeException;
+import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.interfaces.PixType;
 
 import java.util.regex.Pattern;
@@ -12,6 +12,9 @@ public class CpfPixType implements PixType {
     private final String value;
 
     public CpfPixType(String value) {
+        if (value == null || value.isBlank()) {
+            throw new PixKeyException("Cpf must not be null");
+        }
         String trimmed = value.trim();
         validate(trimmed);
         this.value = trimmed;
@@ -30,13 +33,13 @@ public class CpfPixType implements PixType {
     @Override
     public void validate(String value) {
         if (value.length() != maxLength()) {
-            throw new PixTypeException("The CPF have more digits than " + maxLength());
+            throw new PixKeyException("The CPF have more digits than " + maxLength());
         }
         if (!isNumeric(value)) {
-            throw new PixTypeException("The CPF must have exact " + maxLength() + " numeric numbers");
+            throw new PixKeyException("The CPF must have exact " + maxLength() + " numeric numbers");
         }
         if (!isValidCpf(value)) {
-            throw new PixTypeException("The CPF isn't valid");
+            throw new PixKeyException("The CPF isn't valid");
         }
     }
 

@@ -6,10 +6,10 @@ public record AgencyNumber(Integer value) {
 
     public AgencyNumber {
         if (value == null) {
-            throw new AgencyNumberException("Account number must be informed");
+            throw new AgencyNumberException("Agency number must be informed");
         }
         if (value > 9999) {
-            throw new AgencyNumberException("Agency number must have less or equal than 4 digits");
+            throw new AgencyNumberException("Agency number must equals or have less than 4 digits");
         }
     }
 

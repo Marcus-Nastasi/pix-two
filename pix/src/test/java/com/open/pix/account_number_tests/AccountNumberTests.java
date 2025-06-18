@@ -21,7 +21,7 @@ public final class AccountNumberTests {
         AccountNumberException exception = assertThrows(AccountNumberException.class, () -> {
             new AccountNumber(null);
         });
-        assertEquals("Account number must be informed", exception.getMessage());
+        assertEquals("Account number must not be empty", exception.getMessage());
     }
 
     @Test
@@ -49,7 +49,7 @@ public final class AccountNumberTests {
         AccountNumberException exception = assertThrows(AccountNumberException.class, () -> {
             AccountNumber.of(null);
         });
-        assertEquals("Account number must be informed", exception.getMessage());
+        assertEquals("Account number must not be empty", exception.getMessage());
     }
 
     @Test
