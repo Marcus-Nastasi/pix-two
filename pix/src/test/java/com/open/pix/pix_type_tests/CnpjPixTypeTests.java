@@ -6,34 +6,39 @@ import com.open.pix.domain.interfaces.PixType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CnpjPixTypeTests {
+public final class CnpjPixTypeTests {
 
     @Test
     void mustThrowOnCnpjWithLessThan14Numbers() {
-        Assertions.assertThrows(PixTypeException.class, () -> {
-           new CnpjPixType("123");
+        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
+            new CnpjPixType("123");
         });
+        Assertions.assertEquals("The CNPJ have more digits than 14", ex.getMessage());
     }
 
     @Test
     void mustThrowOnCnpjWithMoreThan14Numbers() {
-        Assertions.assertThrows(PixTypeException.class, () -> {
+        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
             new CnpjPixType("12345678901234567");
         });
+        Assertions.assertEquals("The CNPJ have more digits than 14", ex.getMessage());
     }
 
     @Test
     void mustThrowOnCnpjWithNonNumeric() {
-        Assertions.assertThrows(PixTypeException.class, () -> {
+        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
             new CnpjPixType("1234567890123G");
         });
+        Assertions.assertEquals("The CNPJ must have exact 14 numeric numbers", ex.getMessage());
     }
 
     @Test
     void mustThrowOnInvalidCnpj() {
-        Assertions.assertThrows(PixTypeException.class, () -> {
+        PixTypeException ex = Assertions.assertThrows(PixTypeException.class, () -> {
             new CnpjPixType("43192371287391");
+
         });
+        Assertions.assertEquals("The CNPJ isn't valid", ex.getMessage());
     }
 
     @Test
