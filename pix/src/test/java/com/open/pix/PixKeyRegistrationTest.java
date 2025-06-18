@@ -10,6 +10,8 @@ import com.open.pix.domain.factory.LegalTypeFactory;
 import com.open.pix.domain.factory.PixTypeFactory;
 import com.open.pix.domain.types.*;
 
+import com.open.pix.domain.types.legalTypes.CnpjLegalType;
+import com.open.pix.domain.types.legalTypes.CpfLegalType;
 import com.open.pix.domain.types.pixTypes.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

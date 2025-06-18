@@ -68,13 +68,13 @@ public class PixKeyResources {
                                                       @RequestParam(defaultValue = "0") int page,
                                                       @RequestParam(defaultValue = "10") int size) {
         return searchPixKeysUseCase.search(keyType,
-                agencyNumber,
-                accountNumber,
-                name,
-                creationDate,
-                inactivationDate,
-                page,
-                size).stream().map(PixKeyResponseMapper::toResponse).toList();
+                                            agencyNumber,
+                                            accountNumber,
+                                            name,
+                                            creationDate,
+                                            inactivationDate,
+                                            page,
+                                            size).stream().map(PixKeyResponseMapper::toResponse).toList();
     }
 
     @PostMapping
