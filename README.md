@@ -15,11 +15,11 @@ Esse projeto simula operações baseadas em chaves pix.
 
 ## Documentação:
 O sistema conta com 3 níveis de documentação:
-1. Readme: documentação contendo informações gerais sobre o projeto, 
+1. **Readme**: documentação contendo informações gerais sobre o projeto, 
    oferecendo uma visão geral sobre padrão arquitetural, práticas, dependências,
    modos de execução, testes e rotas de API.
-2. Javadoc: documentação do código a nível de classes e métodos.
-3. Open API (Swagger): documentação das rotas de API e objetos relevantes para as rotas,
+2. **Javadoc**: documentação do código a nível de classes e métodos.
+3. **Open API (Swagger)**: documentação das rotas de API e objetos relevantes para as rotas,
    como modelos de requests e responses.
 
 ## Arquitetura:
