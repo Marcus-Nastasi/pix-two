@@ -12,8 +12,9 @@ public class CpfPixType implements PixType {
     private final String value;
 
     public CpfPixType(String value) {
-        validate(value);
-        this.value = value;
+        String trimmed = value.trim();
+        validate(trimmed);
+        this.value = trimmed;
     }
 
     @Override
