@@ -30,6 +30,8 @@ O projeto foi elaborado seguindo os princípios de **Arquitetura Limpa (Uncle Bo
    regras de negócio separadas de infraestrutura, o projeto é facilmente adaptável a mudanças de frameworks 
    e bibliotecas sem que as regras de negócio sejam afetadas.
 - **SOLID**: O projeto visa seguir os princípios SOLID, garantindo escalabilidade e evitando bad smells.
+- **DDD**: O projeto também é orientado ao domínio, resguardando regras de negócio fortemente ligadas as
+   classes de domínio.
 
 Metodologia **12-Factor**:
 - **Ambientes**: Ambiente controlado pelo docker e docker compose, garantindo igualdade de ambientes de execução.
