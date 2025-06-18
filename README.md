@@ -4,15 +4,23 @@ Esse projeto simula operações baseadas em chaves pix.
 
 ## Tecnologias:
 
-- **Java 21**
-- **Spring Framework**
-- **PostgreSQL**
-- **JUnit/Mockito**
-- **Redis Cache**
-- **Git**
-- **Docker e Docker Compose**
-- **Javadoc**
-- **Open API (Swagger)**
+- **Linguagem**: Java 21
+- **Framework**: Spring Framework
+- **Banco de dados**: PostgreSQL
+- **Testes**: JUnit/Mockito
+- **Cache**: Redis Cache
+- **Versionamento**: Git
+- **Container**: Docker e Docker Compose
+- **Documentação**: Javadoc e Open API (Swagger)
+
+## Documentação:
+O sistema conta com 3 níveis de documentação:
+1. Readme: documentação contendo informações gerais sobre o projeto, 
+   oferecendo uma visão geral sobre padrão arquitetural, práticas, dependências,
+   modos de execução, testes e rotas de API.
+2. Javadoc: documentação do código a nível de classes e métodos.
+3. Open API (Swagger): documentação das rotas de API e objetos relevantes para as rotas,
+   como modelos de requests e responses.
 
 ## Arquitetura:
 O projeto foi elaborado seguindo os princípios de **Arquitetura Limpa (Uncle Bob)**,
@@ -32,8 +40,8 @@ Metodologia **12-Factor**:
 ## Como executar:
 ### Pré-requisitos:
 - **Git**
-- **java 21 (JDK) e Maven**
 - **Docker e Docker Compose**
+- **java 21 (JDK) e Maven** (opcional)
 
 ### Passos para rodar na IDE:
 1. **Clone o repositório:**
@@ -42,7 +50,7 @@ Metodologia **12-Factor**:
 
 2. **Execute com sua IDE de preferência**
 
-### Passos para rodar containerizado:
+### Passos para rodar no container:
 1. **Clone o repositório:**
    ```bash
    git clone https://github.com/Marcus-Nastasi/pix-two.git
