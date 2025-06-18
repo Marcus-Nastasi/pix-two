@@ -33,6 +33,7 @@ O projeto foi elaborado seguindo os princípios de **Arquitetura Limpa (Uncle Bo
 
 Metodologia **12-Factor**:
 - **Ambientes**: Ambiente controlado pelo docker e docker compose, garantindo igualdade de ambientes de execução.
+   Propriedades da aplicação divididas entre ambiente de dev, docker e produção, e automatizadas por parâmetros.
 - **Versionamento**: Uso de Git e GitHub para versionamento. 
 - **Testes**: **89 testes** unitários garantindo o devido funcionamento das regras de negócio da aplicação.
 - **Isolamento**: Separação de responsabilidades em camadas da aplicação.
@@ -42,13 +43,15 @@ Metodologia **12-Factor**:
 - **Git**
 - **Docker e Docker Compose**
 - **java 21 (JDK) e Maven** (opcional)
+- *Ter as portas 5432 (Pg), 6379 (Redis) e 8080 (aplicação) livres*
 
 ### Passos para rodar na IDE:
 1. **Clone o repositório:**
    ```bash
    git clone https://github.com/Marcus-Nastasi/pix-two.git
-
-2. **Execute com sua IDE de preferência**
+2. **Garantir que exista um banco de dados Postgres na porta 5432**
+3. **Garantir a existência de um cache Redis na porta 6379**
+4. **Execute com sua IDE de preferência**
 
 ### Passos para rodar no container:
 1. **Clone o repositório:**
