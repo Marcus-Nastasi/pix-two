@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AccountNumberTests {
+public final class AccountNumberTests {
 
     @Test
     void mustThrowWhenAccountNumberGreaterThanEight() {
@@ -22,5 +22,17 @@ public class AccountNumberTests {
             new AccountNumber(null);
         });
         assertEquals("Account number must be informed", exception.getMessage());
+    }
+
+    @Test
+    void mustAcceptValidEightDigitAccountNumber() {
+        AccountNumber acc = new AccountNumber(87654321);
+        assertEquals(87654321, acc.value());
+    }
+
+    @Test
+    void mustAcceptValidShortAccountNumber() {
+        AccountNumber acc = new AccountNumber(123);
+        assertEquals(123, acc.value());
     }
 }
