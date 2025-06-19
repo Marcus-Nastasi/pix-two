@@ -16,7 +16,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -61,10 +61,10 @@ public class PixKeyResources {
                                                       @RequestParam(required = false) String name,
                                                       @RequestParam(required = false)
                                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                           LocalDateTime creationDate,
+                                                          LocalDate creationDate,
                                                       @RequestParam(required = false)
                                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                          LocalDateTime inactivationDate,
+                                                          LocalDate inactivationDate,
                                                       @RequestParam(defaultValue = "0") int page,
                                                       @RequestParam(defaultValue = "10") int size) {
         return searchPixKeysUseCase.search(keyType,

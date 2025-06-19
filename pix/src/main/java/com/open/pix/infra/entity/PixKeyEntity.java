@@ -13,6 +13,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "pix_key", indexes = {
     @Index(name = "idx_pix_type", columnList = "type"),
     @Index(name = "idx_account", columnList = "agency, account_number"),

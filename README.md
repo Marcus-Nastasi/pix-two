@@ -37,7 +37,7 @@ Metodologia **12-Factor**:
 - **Ambientes**: Ambiente controlado pelo docker e docker compose, garantindo igualdade de ambientes de execução.
    Propriedades da aplicação divididas entre ambiente de dev, docker e produção, e automatizadas por parâmetros.
 - **Versionamento**: Uso de Git e GitHub para versionamento. 
-- **Testes**: **89 testes** unitários garantindo o devido funcionamento das regras de negócio da aplicação.
+- **Testes**: **90 testes** unitários garantindo o devido funcionamento das regras de negócio da aplicação.
 - **Isolamento**: Separação de responsabilidades em camadas da aplicação.
 
 ## Como executar:
@@ -84,7 +84,7 @@ Metodologia **12-Factor**:
    GET: http://localhost:8080/api/pix/{id}
    
    # buscar chaves pix com filtros especiais:
-   GET: http://localhost:8080/api/pix/search?page=0&size=10&keyType=cpf&agencyNumber=1234&accountNumber=12345678&name=mark&creationDate=2025-06-15T12:49:55.737393&inactivationDate=2025-06-15T16:17:51.528222
+   GET: http://localhost:8080/api/pix/search?page=0&size=10&keyType=cpf&agencyNumber=1234&accountNumber=12345678&name=mark&creationDate=2025-06-15&inactivationDate=2025-06-15
    
    # registrar chave pix:
    POST: http://localhost:8080/api/pix

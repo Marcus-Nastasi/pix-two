@@ -12,7 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -28,8 +28,8 @@ public class SearchPixKeyGatewayImpl implements SearchPixKeyGateway {
                                Integer agency,
                                Integer account,
                                String holderName,
-                               LocalDateTime inclusionDate,
-                               LocalDateTime inactivationDate,
+                               LocalDate inclusionDate,
+                               LocalDate inactivationDate,
                                int page,
                                int size) {
         Specification<PixKeyEntity> spec = Specification.where(SearchPixKeySpecification.hasPixType(keyType))

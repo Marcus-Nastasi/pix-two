@@ -2,7 +2,7 @@ package com.open.pix.application.gateway;
 
 import com.open.pix.domain.PixKey;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @FunctionalInterface
@@ -14,8 +14,8 @@ public interface SearchPixKeyGateway {
      * @param agency the agency number.
      * @param account the account number.
      * @param holderName the name (being first or last name).
-     * @param inclusionDate the {@link LocalDateTime} of creation.
-     * @param inactivationDate the {@link LocalDateTime} of inactivation.
+     * @param inclusionDate the {@link LocalDate} of creation.
+     * @param inactivationDate the {@link LocalDate} of inactivation.
      * @param page page's number.
      * @param size quantity of objects.
      * @return a {@link List} of {@link PixKey} objects.
@@ -24,8 +24,8 @@ public interface SearchPixKeyGateway {
                         Integer agency,
                         Integer account,
                         String holderName,
-                        LocalDateTime inclusionDate,
-                        LocalDateTime inactivationDate,
+                        LocalDate inclusionDate,
+                        LocalDate inactivationDate,
                         int page,
                         int size);
 }

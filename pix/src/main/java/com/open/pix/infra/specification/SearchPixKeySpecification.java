@@ -4,7 +4,9 @@ import com.open.pix.infra.entity.PixKeyEntity;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Component
 public class SearchPixKeySpecification {
@@ -57,24 +59,30 @@ public class SearchPixKeySpecification {
     /**
      * Creates a specification to filter pix keys by their creation (inclusion) date.
      *
-     * @param date the exact creation date to match
+     * @param date the creation date to match
      * @return a specification matching the given creation date, or null if date is null
      */
-    public static Specification<PixKeyEntity> hasInclusionDate(LocalDateTime date) {
-        return (root, query, cb) -> date == null
-                ? null
-                : cb.equal(root.get("creationDateTime"), date);
+    public static Specification<PixKeyEntity> hasInclusionDate(LocalDate date) {
+        return (root, query, cb) -> {
+            if (date == null) return null;
+            LocalDateTime startOfDay = date.atStartOfDay();
+            LocalDateTime endOfDay = date.atTime(LocalTime.MAX);
+            return cb.between(root.get("creationDateTime"), startOfDay, endOfDay);
+        };
     }
 
     /**
      * Creates a specification to filter pix keys by their inactivation date.
      *
-     * @param date the exact inactivation date to match
+     * @param date the inactivation date to match
      * @return a specification matching the given inactivation date, or null if date is null
      */
-    public static Specification<PixKeyEntity> hasInactivationDate(LocalDateTime date) {
-        return (root, query, cb) -> date == null
-                ? null
-                : cb.equal(root.get("inactivationDateTime"), date);
+    public static Specification<PixKeyEntity> hasInactivationDate(LocalDate date) {
+        return (root, query, cb) -> {
+            if (date == null) return null;
+            LocalDateTime start = date.atStartOfDay();
+            LocalDateTime end = date.atTime(LocalTime.MAX);
+            return cb.between(root.get("inactivationDateTime"), start, end);
+        };
     }
 }
