@@ -13,9 +13,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "pix_key")
+@Table(name = "pix_key", indexes = {
+    @Index(name = "idx_pix_type", columnList = "type"),
+    @Index(name = "idx_account", columnList = "agency, account_number"),
+    @Index(name = "idx_name", columnList = "first_name"),
+    @Index(name = "idx_creation_datetime", columnList = "creation_datetime"),
+    @Index(name = "idx_inactivation_datetime", columnList = "inactivation_datetime")
+})
 public class PixKeyEntity {
 
     @Id
@@ -61,11 +65,11 @@ public class PixKeyEntity {
     @Size(max = 45)
     private String lastName;
 
-    @Column(name = "active", nullable = false)
+    @Column(name = "active", nullable = false, columnDefinition = "boolean default true")
     private boolean active;
 
     @CreationTimestamp
-    @Column(name = "creation_datetime", nullable = false)
+    @Column(name = "creation_datetime", nullable = false, updatable = false)
     private LocalDateTime creationDateTime;
 
     @UpdateTimestamp
