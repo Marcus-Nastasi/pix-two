@@ -88,7 +88,7 @@ public class PixKeyResources {
     @CacheEvict(value = "pix_key", allEntries = true)
     public ResponseEntity<PixKeyUpdateResponse> update(@RequestBody @Valid PixKeyUpdateRequest request) {
         return ResponseEntity.ok(PixKeyResponseMapper.toUpdateResponse(
-                updatePixKeyUseCase.update(PixKeyRequestMapper.fromUpdate(request))));
+                updatePixKeyUseCase.update(pixKeyRequestMapper.fromUpdate(request))));
     }
 
     @DeleteMapping("/{id}")

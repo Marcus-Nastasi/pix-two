@@ -2,22 +2,31 @@ package com.open.pix.pix_type_tests;
 
 import com.open.pix.domain.PixKey;
 import com.open.pix.domain.types.AccountNumber;
-import com.open.pix.domain.types.AccountType;
+import com.open.pix.domain.factory.AccountTypeFactory;
 import com.open.pix.domain.types.AgencyNumber;
+import com.open.pix.domain.types.accountTypes.CurrentAccount;
+import com.open.pix.domain.types.accountTypes.SavingsAccount;
 import com.open.pix.domain.types.pixTypes.CpfPixType;
 import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.interfaces.PixType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 public final class PixKeyTests {
 
     PixType pixType = new CpfPixType("43743508885");
 
+    private final AccountTypeFactory accountTypeFactory = new AccountTypeFactory(Map.of(
+        "corrente", CurrentAccount::new,
+        "poupança", SavingsAccount::new
+    ));
+
     PixKey pixKey = PixKey.registerNew(
             pixType,
             pixType.value(),
-            new AccountType("corrente"),
+            accountTypeFactory.resolve("corrente"),
             new AgencyNumber(1234),
             new AccountNumber(12345678),
             "Marcus",
@@ -28,7 +37,7 @@ public final class PixKeyTests {
         Assertions.assertDoesNotThrow(() -> pixKey);
 
         Assertions.assertEquals("43743508885", pixKey.getValue());
-        Assertions.assertEquals("corrente", pixKey.getAccountType().type());
+        Assertions.assertEquals("corrente", pixKey.getAccountType().value());
         Assertions.assertEquals(CpfPixType.class, pixKey.getPixType().getClass());
         Assertions.assertEquals("Marcus", pixKey.getFirstName());
         Assertions.assertEquals("Nastasi", pixKey.getLastName());

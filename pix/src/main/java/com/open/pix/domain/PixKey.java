@@ -1,7 +1,7 @@
 package com.open.pix.domain;
 
+import com.open.pix.domain.interfaces.AccountType;
 import com.open.pix.domain.types.AccountNumber;
-import com.open.pix.domain.types.AccountType;
 import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.interfaces.PixType;

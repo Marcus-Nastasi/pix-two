@@ -8,10 +8,12 @@ import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.application.usecases.UpdatePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import com.open.pix.domain.types.AccountNumber;
-import com.open.pix.domain.types.AccountType;
+import com.open.pix.domain.factory.AccountTypeFactory;
 import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.factory.PixTypeFactory;
+import com.open.pix.domain.types.accountTypes.CurrentAccount;
+import com.open.pix.domain.types.accountTypes.SavingsAccount;
 import com.open.pix.domain.types.pixTypes.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,13 @@ public final class PixKeyUpdateTests {
             "aleatorio", RandomPixType::new
     ));
 
+    private final AccountTypeFactory accountTypeFactory = new AccountTypeFactory(Map.of(
+            "corrente", CurrentAccount::new,
+            "poupança", SavingsAccount::new
+    ));
+
+    private final PixKeyRequestMapper pixKeyRequestMapper = new PixKeyRequestMapper(pixTypeFactory, accountTypeFactory);
+
     @Mock
     private SavePixKeyGateway savePixKeyGateway;
 
@@ -50,7 +59,7 @@ public final class PixKeyUpdateTests {
 
     private final PixKey pixKey1 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
             "72356804072",
-            new AccountType("corrente"),
+            accountTypeFactory.resolve("corrente"),
             new AgencyNumber(1234),
             new AccountNumber(1234567),
             "Mark",
@@ -58,14 +67,14 @@ public final class PixKeyUpdateTests {
 
     private final PixKey pixKeyUpdated = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
             "72356804072",
-            new AccountType("corrente"),
+            accountTypeFactory.resolve("corrente"),
             new AgencyNumber(1234),
             new AccountNumber(12345678),
             "Marcus",
             "Rol");
 
     private final PixKeyUpdateRequest pixKeyUpdateRequest = new PixKeyUpdateRequest(uuid,
-            new AccountType("corrente").type(), 1234, 12345678, "Marcus", "Rol");
+            accountTypeFactory.resolve("corrente").value(), 1234, 12345678, "Marcus", "Rol");
 
     @Test
     void shouldThrowOnInactiveKey() {
@@ -93,7 +102,7 @@ public final class PixKeyUpdateTests {
         Mockito.when(findPixKeyGateway.findById(uuid)).thenReturn(pixKey1);
         Mockito.when(savePixKeyGateway.save(Mockito.any(PixKey.class))).thenReturn(pixKeyUpdated);
 
-        PixKey updatedKey = useCase.update(PixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
+        PixKey updatedKey = useCase.update(pixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
 
         Assertions.assertNotNull(updatedKey);
         Assertions.assertEquals(uuid, updatedKey.getId());
@@ -101,7 +110,7 @@ public final class PixKeyUpdateTests {
         Assertions.assertEquals("Rol", updatedKey.getLastName());
         Assertions.assertEquals(1234, updatedKey.getAgencyNumber().value());
         Assertions.assertEquals(12345678, updatedKey.getAccountNumber().value());
-        Assertions.assertEquals("corrente", updatedKey.getAccountType().type());
+        Assertions.assertEquals("corrente", updatedKey.getAccountType().value());
         Assertions.assertEquals("72356804072", updatedKey.getValue());
         Assertions.assertTrue(updatedKey.isActive());
 
@@ -114,7 +123,7 @@ public final class PixKeyUpdateTests {
         Mockito.when(findPixKeyGateway.findById(uuid)).thenReturn(null);
 
         NotFoundException exception = Assertions.assertThrows(NotFoundException.class, () -> {
-            useCase.update(PixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
+            useCase.update(pixKeyRequestMapper.fromUpdate(pixKeyUpdateRequest));
         });
 
         Assertions.assertEquals("Pix key not found", exception.getMessage());
@@ -132,7 +141,7 @@ public final class PixKeyUpdateTests {
         Mockito.when(findPixKeyGateway.findById(uuid)).thenReturn(pixKey1);
         Mockito.when(savePixKeyGateway.save(Mockito.any(PixKey.class))).thenAnswer(i -> i.getArgument(0));
 
-        PixKey result = useCase.update(PixKeyRequestMapper.fromUpdate(sameDataRequest));
+        PixKey result = useCase.update(pixKeyRequestMapper.fromUpdate(sameDataRequest));
 
         Assertions.assertEquals(pixKey1.getFirstName(), result.getFirstName());
         Assertions.assertEquals(pixKey1.getAccountNumber(), result.getAccountNumber());

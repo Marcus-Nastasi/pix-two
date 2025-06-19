@@ -6,10 +6,12 @@ import com.open.pix.application.gateway.SavePixKeyGateway;
 import com.open.pix.application.usecases.InactivatePixKeyUseCase;
 import com.open.pix.domain.PixKey;
 import com.open.pix.domain.types.AccountNumber;
-import com.open.pix.domain.types.AccountType;
+import com.open.pix.domain.factory.AccountTypeFactory;
 import com.open.pix.domain.types.AgencyNumber;
 import com.open.pix.domain.exceptions.PixKeyException;
 import com.open.pix.domain.factory.PixTypeFactory;
+import com.open.pix.domain.types.accountTypes.CurrentAccount;
+import com.open.pix.domain.types.accountTypes.SavingsAccount;
 import com.open.pix.domain.types.pixTypes.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,6 +41,11 @@ public final class PixKeyInactivateTests {
             "aleatorio", RandomPixType::new
     ));
 
+    private final AccountTypeFactory accountTypeFactory = new AccountTypeFactory(Map.of(
+        "corrente", CurrentAccount::new,
+        "poupança", SavingsAccount::new
+    ));
+
     @Mock
     private SavePixKeyGateway savePixKeyGateway;
 
@@ -47,7 +54,7 @@ public final class PixKeyInactivateTests {
 
     private final PixKey pixKey1 = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
             "72356804072",
-            new AccountType("corrente"),
+            accountTypeFactory.resolve("corrente"),
             new AgencyNumber(1234),
             new AccountNumber(1234567),
             "Mark",
@@ -55,7 +62,7 @@ public final class PixKeyInactivateTests {
 
     private final PixKey inactivePixKey = PixKey.registerNew(pixTypeFactory.newPixType("cpf", "72356804072"),
             "72356804072",
-            new AccountType("corrente"),
+            accountTypeFactory.resolve("corrente"),
             new AgencyNumber(1234),
             new AccountNumber(1234567),
             "Mark",
