@@ -33,3 +33,9 @@ build/
 .vscode/
 
 .mvn
+
+.env
+.env.*
+*.env
+
+docker-compose.prd.yml
