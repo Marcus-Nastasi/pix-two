@@ -24,7 +24,6 @@ O sistema conta com 3 níveis de documentação:
 
 ## Arquitetura:
 O projeto foi elaborado seguindo os princípios de **Arquitetura Limpa (Uncle Bob)**,
-- **Divisão de camadas**: É dividido em camadas com responsabilidades separadas.
 - **Isolamento**: Garante isolamento entre a camada de domínio, aplicação, infraestrutura e portas.
 - **Flexibilidade**: O padrão arquitetural adotado permite total flexibilidade. Com a camada de domínio e 
    regras de negócio separadas de infraestrutura, o projeto é facilmente adaptável a mudanças de frameworks 
@@ -34,11 +33,16 @@ O projeto foi elaborado seguindo os princípios de **Arquitetura Limpa (Uncle Bo
    classes de domínio.
 
 Metodologia **12-Factor**:
-- **Ambientes**: Ambiente controlado pelo docker e docker compose, garantindo igualdade de ambientes de execução.
+- **Versionamento**: Uso de Git e GitHub para versionamento.
+- **Config/Ambientes**: Ambiente controlado pelo docker e docker compose, garantindo igualdade de ambientes de execução.
    Propriedades da aplicação divididas entre ambiente de dev, docker e produção, e automatizadas por parâmetros.
-- **Versionamento**: Uso de Git e GitHub para versionamento. 
 - **Testes**: **90 testes** unitários garantindo o devido funcionamento das regras de negócio da aplicação.
-- **Isolamento**: Separação de responsabilidades em camadas da aplicação.
+- **Isolamento/dependências**: Utiliza Maven (Java) e Docker, o que garante que dependências estão claramente definidas (pom.xml no Maven e Dockerfile).
+- **Backing Services**: Utilizando PostgreSQL e Redis como recursos anexáveis, acessados por configuração, e isolados por ambiente.
+- **Build, release and run**: Pipelines de teste, build e run automatizadas pelo Docker e Docker Compose.
+- **Concurrency**: Roda serviços separados como Redis e PostgreSQL via Docker. A arquitetura está pronta para escalar a aplicação com múltiplos processos.
+- **Disposability**: A aplicação Spring Boot pode ser rapidamente inicializada ou derrubada com Docker.
+- **Dev/Prod Parity**: Utiliza Docker Compose local e perfis (dev vs prd) que refletem o comportamento em produção (Redis e Postgres).
 
 ## Como executar:
 ### Pré-requisitos:
