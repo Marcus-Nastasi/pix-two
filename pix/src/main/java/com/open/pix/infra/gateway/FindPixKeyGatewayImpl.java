@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -46,10 +47,8 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     @Override
     public PixKey findByPixValue(String value) {
-        PixKeyEntity pixKey = repository.findByValueAndActiveTrue(value);
-        if (pixKey == null) {
-            return null;
-        }
+        PixKeyEntity pixKey = Optional.ofNullable(repository.findByValueAndActiveTrue(value))
+                .orElseThrow(() -> new NotFoundException("Pix key not found"));
         return pixKeyEntityMapper.toDomain(pixKey);
     }
 }

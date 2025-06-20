@@ -56,17 +56,17 @@ public class PixKeyResources {
     @GetMapping("/search")
     @Cacheable("pix_key")
     public List<PixKeyResponse> search(@RequestParam(required = false) String keyType,
-                                                      @RequestParam(required = false) Integer agencyNumber,
-                                                      @RequestParam(required = false) Integer accountNumber,
-                                                      @RequestParam(required = false) String name,
-                                                      @RequestParam(required = false)
-                                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                          LocalDate creationDate,
-                                                      @RequestParam(required = false)
-                                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                          LocalDate inactivationDate,
-                                                      @RequestParam(defaultValue = "0") int page,
-                                                      @RequestParam(defaultValue = "10") int size) {
+                                      @RequestParam(required = false) Integer agencyNumber,
+                                      @RequestParam(required = false) Integer accountNumber,
+                                      @RequestParam(required = false) String name,
+                                      @RequestParam(required = false)
+                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                          LocalDate creationDate,
+                                      @RequestParam(required = false)
+                                          @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                          LocalDate inactivationDate,
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size) {
         return searchPixKeysUseCase.search(keyType,
                                             agencyNumber,
                                             accountNumber,
