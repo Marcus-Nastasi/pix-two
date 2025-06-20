@@ -25,7 +25,7 @@ public class PixKeyRequestMapper {
                 .accountType(accountTypeFactory.resolve(pixKey.accountType()))
                 .agencyNumber(AgencyNumber.of(pixKey.agencyNumber()))
                 .accountNumber(AccountNumber.of(pixKey.accountNumber()))
-                .firstName(pixKey.firstName())
+                .firstName(pixKey.firstName() != null ? pixKey.firstName() : "")
                 .lastName(pixKey.lastName())
                 .build();
     }

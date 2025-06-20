@@ -47,8 +47,10 @@ public class FindPixKeyGatewayImpl implements FindPixKeyGateway {
 
     @Override
     public PixKey findByPixValue(String value) {
-        PixKeyEntity pixKey = Optional.ofNullable(repository.findByValueAndActiveTrue(value))
-                .orElseThrow(() -> new NotFoundException("Pix key not found"));
+        PixKeyEntity pixKey = repository.findByValueAndActiveTrue(value);
+        if (pixKey == null) {
+            return null;
+        }
         return pixKeyEntityMapper.toDomain(pixKey);
     }
 }
